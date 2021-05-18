@@ -25,13 +25,6 @@ int StudentWorld::init() {
 int StudentWorld::move()
 {
 	player->doSomething();
-	if (player->isAlive() != true) {
-		decLives();
-		return GWSTATUS_PLAYER_DIED;
-	}
-	else if (player->isAlive() == true) {
-		return GWSTATUS_CONTINUE_GAME;
-	}
 	return GWSTATUS_CONTINUE_GAME;
 }
 
