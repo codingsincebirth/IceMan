@@ -1,3 +1,4 @@
+
 #ifndef ACTOR_H_
 #define ACTOR_H_
 
@@ -5,7 +6,15 @@
 #include "StudentWorld.h"
 
 // Students:  Add code to this file, Actor.cpp, StudentWorld.h, and StudentWorld.cpp
-class Actor : public GraphObject {
+
+class Object : public GraphObject {
+public: 
+	Object(int imageID, int startX, int startY, Direction startDirection, float size, unsigned int depth);
+
+};
+
+
+class Actor : public Object {
 public:
 	Actor(int imageID, int startX, int startY, Direction startDirection, float size, unsigned int depth, StudentWorld* w, int hp);
 	bool isAlive();
@@ -31,14 +40,12 @@ private:
 
 };
 
-class Ice : public Actor {
+class Ice : public Object {
 public:
-	Ice(int x, int y) : Actor(IID_ICE, x, y, right, 0.25, 3, getWorld(), 0) {}
+	Ice(int x, int y);
 	virtual ~Ice();
 	virtual void doSomething();
 
 };
 
 #endif // ACTOR_H_
-
-

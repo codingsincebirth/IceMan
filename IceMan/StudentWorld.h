@@ -14,6 +14,7 @@ public:
 	virtual int move();
 	virtual void cleanUp();
 	void removeIce(Iceman* p1);
+	Iceman* getPlayer() { return player };
 
 private:
 	Iceman* player;
