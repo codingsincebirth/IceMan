@@ -14,6 +14,8 @@ int StudentWorld::init() {
 	player = new Iceman(this); // Create new iceman
 	for (int i = 0; i < 60; i++) {
 		for (int j = 0; j < 60; j++) {
+			if (i >= 30 && i <= 30 && j >= 4)
+				ice[i][j] = nullptr;
 			ice[i][j] = new Ice(i, j);
 		}
 	}

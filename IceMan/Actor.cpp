@@ -23,6 +23,10 @@ void Actor::isDead() {
 	status_alive = false;
 }
 
+void Actor::irritated(int dmg) {
+	num_hp -= dmg;
+}
+
 Iceman::Iceman(StudentWorld* w)
 	:Actor(IID_PLAYER, 30, 60, right, 1.0, 0, w, 10)
 {
