@@ -12,9 +12,9 @@ GameWorld* createStudentWorld(string assetDir)
 
 int StudentWorld::init() {
 	player = new Iceman(this); // Create new iceman
-	for (int i = 0; i < 60; i++) {
+	for (int i = 0; i < 64; i++) {
 		for (int j = 0; j < 60; j++) {
-			if (i >= 30 && i <= 30 && j >= 4)
+			if (i >= 30 && i <= 30 && j >= 4)// creating the tunnel
 				ice[i][j] = nullptr;
 			ice[i][j] = new Ice(i, j);
 		}
@@ -48,5 +48,11 @@ void StudentWorld::cleanUp() {
 }
 
 void StudentWorld::removeIce(Iceman* p1) {
-
+	for (int i = player->getX(); i <= player->getX() + 3; i++) {
+		for (int j = player->getY(); j <= player->getY() + 3; j++) {
+			if (ice[i][j] != nullptr) {
+				ice[i][j] = nullptr;
+			}
+		}
+	}
 }

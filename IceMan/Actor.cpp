@@ -35,7 +35,6 @@ Iceman::Iceman(StudentWorld* w)
 	this->num_goldNugs = 0;
 }
 
-
 void Iceman::doSomething() {
 	if (isAlive() != true) {
 		return;
