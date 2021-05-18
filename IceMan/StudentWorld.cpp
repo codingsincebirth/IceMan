@@ -1,7 +1,8 @@
 #include "StudentWorld.h"
-#include <string>
 #include "Actor.h"
+#include <string>
 using namespace std;
+
 
 GameWorld* createStudentWorld(string assetDir)
 {
@@ -43,7 +44,8 @@ void StudentWorld::cleanUp() {
 void StudentWorld::removeIce(Iceman* p1) {
 	for (int i = player->getX(); i <= player->getX() + 3; i++) {
 		for (int j = player->getY(); j <= player->getY() + 3; j++) {
-			if (ice[i][j] != nullptr) {
+			if (ice[i][j] != nullptr && j < 60) {
+				delete ice[i][j];
 				ice[i][j] = nullptr;
 			}
 		}

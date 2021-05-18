@@ -15,6 +15,9 @@ Actor::Actor(int imageID, int startX, int startY, Direction startDirection, floa
 	world = w;
 	status_alive = true;
 }
+Actor::~Actor() {
+
+}
 StudentWorld* Actor::getWorld() {
 	return world;
 }
@@ -39,10 +42,16 @@ Iceman::Iceman(StudentWorld* w)
 	this->num_goldNugs = 0;
 }
 
+Iceman::~Iceman() {
+
+}
+
 void Iceman::doSomething() {
 	if (isAlive() != true) {
 		return;
 	}
+	if (getY() < 60)
+		getWorld()->removeIce(this);
 	else {
 		int ch;
 		if (getWorld()->getKey(ch) == true)
@@ -89,6 +98,10 @@ void Iceman::doSomething() {
 
 Ice::Ice(int x, int y)
 	:Object(IID_ICE, x, y, right, .25, 3) {
+
+}
+
+Ice::~Ice() {
 
 }
 
