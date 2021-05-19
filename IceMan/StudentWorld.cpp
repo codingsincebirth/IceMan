@@ -20,6 +20,11 @@ int StudentWorld::init() {
 			ice[i][j] = new Ice(i, j);
 		}
 	}
+	for (int i = 0; i < 64; i++) {
+		for (int j = 60; j < 64; j++) {
+			ice[i][j] = nullptr;
+		}
+	}
 	return GWSTATUS_CONTINUE_GAME;
 }
 
@@ -40,8 +45,12 @@ void StudentWorld::cleanUp() {
 	}
 	delete player;
 }
+Iceman* StudentWorld::getPlayer() {
+	return player;
+}
 
 void StudentWorld::removeIce(Iceman* p1) {
+	player = p1;
 	for (int i = player->getX(); i <= player->getX() + 3; i++) {
 		for (int j = player->getY(); j <= player->getY() + 3; j++) {
 			if (ice[i][j] != nullptr && j < 60) {
