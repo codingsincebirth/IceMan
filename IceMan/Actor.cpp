@@ -58,41 +58,55 @@ void Iceman::doSomething() {
 			switch (ch)
 			{
 			case KEY_PRESS_LEFT:
-				if (getDirection() == left && getX() == 0)
-					moveTo(getX(), getY());
-				if (getDirection() == left) {
+				if (getDirection() == left)
+				{
 					getWorld()->removeIce(this);
-					moveTo(getX() - 1, getY());
+					if (getX() == 0)
+						moveTo(getX(), getY());
+					else{
+						
+						moveTo(getX() - 1, getY());
+					}
 				}
 				else
 					setDirection(left);
 				break;
 			case KEY_PRESS_RIGHT:
-				if (getDirection() == right && getX() == 60)
-					moveTo(getX(), getY());
-				if (getDirection() == right) {
+				if (getDirection() == right)
+				{
 					getWorld()->removeIce(this);
-					moveTo(getX() + 1, getY());
+					if (getX() == 60)
+						moveTo(getX(), getY());
+					else{
+						
+						moveTo(getX() + 1, getY());
+					}
 				}
 				else
 					setDirection(right);
 				break;
 			case KEY_PRESS_UP:
-				if (getDirection() == up && getY() == 60)
-					moveTo(getX(), getY());
-				if (getDirection() == up) {
+				if (getDirection() == up)
+				{
 					getWorld()->removeIce(this);
-					moveTo(getX(), getY() + 1);
+					if (getY() == 60)
+						moveTo(getX(), getY());
+					else{	
+						moveTo(getX(), getY() + 1);
+					}
 				}
 				else
 					setDirection(up);
 				break;
 			case KEY_PRESS_DOWN:
-				if (getDirection() == down && getY() == 0)
-					moveTo(getX(), getY());
-				if (getDirection() == down) {
+				if (getDirection() == down)
+				{
 					getWorld()->removeIce(this);
-					moveTo(getX(), getY() - 1);
+					if (getDirection() == down && getY() == 0)
+						moveTo(getX(), getY());
+					else{
+						moveTo(getX(), getY() - 1);
+					}
 				}
 				else
 					setDirection(down);
