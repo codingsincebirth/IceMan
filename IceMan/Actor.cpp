@@ -3,13 +3,13 @@
 
 // Students:  Add code to this file (if you wish), Actor.h, StudentWorld.h, and StudentWorld.cpp
 
-Object::Object(int imageID, int startX, int startY, Direction startDirection, float size, unsigned int depth):
+BaseObject::BaseObject(int imageID, int startX, int startY, Direction startDirection, float size, unsigned int depth):
 	GraphObject(imageID, startX, startY, startDirection, size, depth) {
 	setVisible(true);
 }
 
 Actor::Actor(int imageID, int startX, int startY, Direction startDirection, float size, unsigned int depth, StudentWorld* w, int hp)
-	:Object(imageID, startX, startY, startDirection, size, depth)
+	: BaseObject(imageID, startX, startY, startDirection, size, depth)
 {
 	num_hp = hp;
 	world = w;
@@ -68,7 +68,7 @@ void Iceman::doSomething() {
 					setDirection(left);
 				break;
 			case KEY_PRESS_RIGHT:
-				if (getDirection() == left && getX() == 60)
+				if (getDirection() == right && getX() == 60)
 					moveTo(getX(), getY());
 				if (getDirection() == right)
 					moveTo(getX() + 1, getY());
@@ -84,7 +84,7 @@ void Iceman::doSomething() {
 					setDirection(up);
 				break;
 			case KEY_PRESS_DOWN:
-				if (getDirection() == left && getY() == 0)
+				if (getDirection() == down && getY() == 0)
 					moveTo(getX(), getY());
 				if (getDirection() == down)
 					moveTo(getX(), getY() - 1);
@@ -97,14 +97,7 @@ void Iceman::doSomething() {
 }
 
 Ice::Ice(int x, int y)
-	:Object(IID_ICE, x, y, right, .25, 3) {
+	:BaseObject(IID_ICE, x, y, right, .25, 3) {
 
 }
 
-Ice::~Ice() {
-
-}
-
-void Ice::doSomething() {
-	return;
-}

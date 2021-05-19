@@ -15,14 +15,18 @@ int StudentWorld::init() {
 	player = new Iceman(this); // Create new iceman
 	for (int i = 0; i < 64; i++) {
 		for (int j = 0; j < 60; j++) {
-			if (i >= 30 && i <= 30 && j >= 4)// creating the tunnel
+			if (i >= 30 && i <= 33 && j >= 4)// creating the tunnel
 				ice[i][j] = nullptr;
-			ice[i][j] = new Ice(i, j);
+			else{
+				ice[i][j] = new Ice(i, j);
+			}
+			
 		}
 	}
 	for (int i = 0; i < 64; i++) {
 		for (int j = 60; j < 64; j++) {
-			ice[i][j] = nullptr;
+				ice[i][j] = nullptr;
+			
 		}
 	}
 	return GWSTATUS_CONTINUE_GAME;

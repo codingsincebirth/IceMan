@@ -7,14 +7,14 @@
 
 // Students:  Add code to this file, Actor.cpp, StudentWorld.h, and StudentWorld.cpp
 
-class Object : public GraphObject {
+class BaseObject : public GraphObject {
 public: 
-	Object(int imageID, int startX, int startY, Direction startDirection, float size, unsigned int depth);
+	BaseObject(int imageID, int startX, int startY, Direction startDirection, float size, unsigned int depth);
 
 };
 
 
-class Actor : public Object {
+class Actor : public BaseObject {
 public:
 	Actor(int imageID, int startX, int startY, Direction startDirection, float size, unsigned int depth, StudentWorld* w, int hp);
 	bool isAlive();
@@ -40,11 +40,9 @@ private:
 
 };
 
-class Ice : public Object {
+class Ice : public BaseObject {
 public:
 	Ice(int x, int y);
-	virtual ~Ice();
-	virtual void doSomething();
 
 };
 
