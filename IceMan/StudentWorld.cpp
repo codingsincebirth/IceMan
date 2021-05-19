@@ -9,8 +9,6 @@ GameWorld* createStudentWorld(string assetDir)
 	return new StudentWorld(assetDir);
 }
 
-// Students:  Add code to this file (if you wish), StudentWorld.h, Actor.h and Actor.cpp
-
 int StudentWorld::init() {
 	player = new Iceman(this); // Create new iceman
 	for (int i = 0; i < 64; i++) {
