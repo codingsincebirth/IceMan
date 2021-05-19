@@ -9,14 +9,10 @@ GameWorld* createStudentWorld(string assetDir)
 	return new StudentWorld(assetDir);
 }
 
-// Students:  Add code to this file (if you wish), StudentWorld.h, Actor.h and Actor.cpp
-
 int StudentWorld::init() {
 	player = new Iceman(this); // Create new iceman
 	for (int i = 0; i < 64; i++) {
-		for (int j = 0; j < 60; j++) {
-			if (i >= 30 && i <= 30 && j >= 4)// creating the tunnel
-				ice[i][j] = nullptr;
+		for (int j = 0; j < 30 || j > 33; j++) { // avoid putting ice in tunnel
 			ice[i][j] = new Ice(i, j);
 		}
 	}
