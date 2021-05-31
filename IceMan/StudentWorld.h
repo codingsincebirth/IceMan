@@ -7,6 +7,7 @@
 // Students:  Add code to this file, StudentWorld.cpp, Actor.h, and Actor.cpp
 class Iceman;
 class Ice;
+class Boulder;
 
 class StudentWorld : public GameWorld {
 public:
@@ -16,9 +17,11 @@ public:
 	virtual void cleanUp();
 	void removeIce(Iceman* p1);
 	Iceman* getPlayer();
+	bool checkForIce(Boulder* b1);
 private:
 	Iceman* player;
 	Ice* ice[64][64];
+	Boulder* boulder;
 };
 
 #endif // STUDENTWORLD_H_
