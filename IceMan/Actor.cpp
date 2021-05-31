@@ -71,7 +71,6 @@ void Iceman::doSomething() {
 					if (getX() == 0)
 						moveTo(getX(), getY());
 					else{
-						
 						moveTo(getX() - 1, getY());
 					}
 				}
@@ -85,7 +84,6 @@ void Iceman::doSomething() {
 					if (getX() == 60)
 						moveTo(getX(), getY());
 					else{
-						
 						moveTo(getX() + 1, getY());
 					}
 				}
@@ -176,39 +174,37 @@ void Boulder::doSomething() {
 		return;
 	else {
 		switch (getState()) {
-		case 0:
-			bool flag = getWorld()->checkForIce(this);
-			if (flag == true) {
-				waitingTicks = 30;
-				setState(1);
-			}
-			break;
-		case 1:
-			waitingTicks--;
-			if (waitingTicks == 0) {
-				setState(2);
-				getWorld()->playSound(SOUND_FALLING_ROCK);
-			}
-			break;
-		case 2:
-			bool flag = true;
-			if (getY() >= 0 && flag == true)
-			{
-				moveTo(getX(), getY() - 1);
-				flag = getWorld()->checkForIce(this);
-				if (getX() <= getWorld()->getPlayer()->getX() || getY() <= getWorld()->getPlayer()->getY()) {
-					getWorld()->getPlayer()->annoy(100);
+			case 0: {
+				bool flag = getWorld()->checkForIce(this);
+				if (flag == true) {
+					waitingTicks = 30;
+					setState(1);
 				}
-
+				break;
 			}
-			else {
-				isDead();
-				setVisible(false);
+			case 1:
+				waitingTicks--;
+				if (waitingTicks == 0) {
+					setState(2);
+					getWorld()->playSound(SOUND_FALLING_ROCK);
+				}
+				break;
+			case 2: {
+				bool flag = true;
+				if (getY() >= 0 && flag == true) {
+					moveTo(getX(), getY() - 1);
+					flag = getWorld()->checkForIce(this);
+					if (getX() <= getWorld()->getPlayer()->getX() || getY() <= getWorld()->getPlayer()->getY()) {
+						getWorld()->getPlayer()->annoy(100);
+					}
+				} else {
+					isDead();
+					setVisible(false);
+				}
+				break;
 			}
-			break;
 		}
 	}
-
 }
 
 Boulder::~Boulder() {}
