@@ -183,10 +183,11 @@ Goodie::~Goodie() {
 Boulder::Boulder(int x, int y, StudentWorld* w)
 	:Goodie(IID_BOULDER, x, y, down, 1.0, 1, w) {
 	state = 0;
+	waitingTicks = 30;
 }
 void Boulder::setState(int st) {
 	state = st;
-	waitingTicks = 30;
+	
 	// 0 = stable
 	// 1 = waiting
 	// 2 = falling
@@ -216,7 +217,6 @@ void Boulder::doSomething() {
 			}
 			break;
 		case 2:
-			flag = true;
 			if (getY() >= 0 && flag == true)
 			{
 				moveTo(getX(), getY() - 1);
