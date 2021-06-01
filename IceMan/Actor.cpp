@@ -79,7 +79,6 @@ void Iceman::doSomething() {
 					if (getX() == 0)
 						moveTo(getX(), getY());
 					else{
-						
 						moveTo(getX() - 1, getY());
 					}
 				}
@@ -93,7 +92,6 @@ void Iceman::doSomething() {
 					if (getX() == 60)
 						moveTo(getX(), getY());
 					else{
-						
 						moveTo(getX() + 1, getY());
 					}
 				}
