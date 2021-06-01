@@ -1,6 +1,7 @@
 #include "StudentWorld.h"
 #include "Actor.h"
 #include <string>
+#include <cmath>
 using namespace std;
 
 
@@ -27,18 +28,57 @@ int StudentWorld::init() {
 
 		}
 	}
+	int B = min((getLevel() / 2) + 2, 9);
+	for (int i = 0; i < B; i++) {
+		int x, y;
+		for (;;)
+		{
+			x = rand() % 61;
+			y = rand() % 37 + 20;
+			if (x < 26 || x > 33 && canDistribute(x, y))
+				break;
+		}
+		Goodie* g = new Boulder(x, y, this);
+		for (int j = 0; j < 4; j++)
+		{
+			for (int k = 0; k < 4; k++)
+			{
+				delete ice[g->getX() + j][g->getY() + k];
+				ice[g->getX() + j][g->getY() + k] = nullptr;
+			}
+		}
+		goodies.push_back(g);
+	}
 	return GWSTATUS_CONTINUE_GAME;
+}
+bool StudentWorld::canDistribute(int x, int y) {
+	for (int i = 0; i < goodies.size(); i++)
+	{
+		if (distance(goodies[i]->getX() + 2, goodies[i]->getY() + 2, x + 2, y + 2) <= 6.0)
+			return false;
+	}
+	return true;
 }
 
 int StudentWorld::move()
 {
-	if (player->isAlive() == true)
-	{
-		player->doSomething();
-		return GWSTATUS_CONTINUE_GAME;
-	}
-	else {
+	player->doSomething();
+	if (player->isAlive() != true)
+	{	
+		decLives();
 		return GWSTATUS_PLAYER_DIED;
+	}
+	
+	for (int i = 0; i < goodies.size(); i++) {
+		goodies[i]->doSomething();
+	}
+	for (int i = 0; i < goodies.size(); i++) {
+		if (goodies[i]->isAlive() != true) {
+			delete goodies[i];
+			goodies[i] = nullptr;
+			goodies.erase(goodies.begin() + i);
+			--i;
+		}
 	}
 }
 
@@ -50,6 +90,12 @@ void StudentWorld::cleanUp() {
 				ice[i][j] = nullptr;
 			}
 		}
+	}
+	for (int i = 0; i < goodies.size(); i++) {
+		delete goodies[i];
+		goodies[i] = nullptr;
+		goodies.erase(goodies.begin() + i);
+		--i;
 	}
 	delete player;
 }
@@ -69,7 +115,7 @@ void StudentWorld::removeIce(Iceman* p1) {
 			}
 		}
 	}
-	if (dig = true) {
+	if (dig == true) {
 		playSound(SOUND_DIG);
 	}
 }
@@ -86,4 +132,23 @@ bool StudentWorld::checkForIce(Boulder* b1) {
 		}
 
 	}
+}
+
+int StudentWorld::min(int a, int b) {
+	if (a < b)
+		return a;
+	else {
+		return b;
+	}
+}
+int StudentWorld::max(int a, int b) {
+	if (a > b)
+		return a;
+	else {
+		return b;
+	}
+}
+
+int StudentWorld::distance(int x1, int x2, int y1, int y2) {
+	return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 }

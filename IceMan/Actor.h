@@ -7,23 +7,11 @@
 #include <stack>
 
 // Students:  Add code to this file, Actor.cpp, StudentWorld.h, and StudentWorld.cpp
-struct Position{
-	int x;
-	int y;
-	Position(int x, int y)
-	{
-		this->x = x;
-		this->y = y;
-	}
-	
-};
-
 class BaseObject : public GraphObject {
 public: 
 	BaseObject(int imageID, int startX, int startY, Direction startDirection, float size, unsigned int depth);
 	bool isAlive();
 	void isDead();
-	int distance(int x1, int y1, int x2, int y2);
 private:
 	bool status;
 };
@@ -40,6 +28,14 @@ public:
 private:
 	StudentWorld* world;
 	int num_hp;
+};
+
+class Goodie :public Actor {
+public:
+	Goodie(int imageID, int startX, int startY, Direction startDirection, float size, unsigned int depth, StudentWorld* w);
+	virtual void doSomething();
+	virtual ~Goodie();
+	void annoy(int dmg);
 };
 
 class Iceman : public Actor {
@@ -60,7 +56,7 @@ public:
 	Ice(int x, int y);
 };
 
-class Boulder : public Actor {
+class Boulder : public Goodie {
 public:
 	Boulder(int x, int y, StudentWorld* w);
 	void doSomething();

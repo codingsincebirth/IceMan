@@ -3,6 +3,16 @@
 #include <cmath>
 
 // Students:  Add code to this file (if you wish), Actor.h, StudentWorld.h, and StudentWorld.cpp
+struct Position {
+	int x;
+	int y;
+	Position(int x, int y)
+	{
+		this->x = x;
+		this->y = y;
+	}
+
+};
 
 BaseObject::BaseObject(int imageID, int startX, int startY, Direction startDirection, float size, unsigned int depth):
 	GraphObject(imageID, startX, startY, startDirection, size, depth) {
@@ -17,9 +27,7 @@ bool BaseObject::isAlive() {
 void BaseObject::isDead() {
 	status = false;
 }
-int BaseObject::distance(int x1, int y1, int x2, int y2) {
-	return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
-}
+/////////// ACTOR IMPLEMENTATION /////////////
 
 Actor::Actor(int imageID, int startX, int startY, Direction startDirection, float size, unsigned int depth, StudentWorld* w, int hp)
 	: BaseObject(imageID, startX, startY, startDirection, size, depth)
@@ -154,14 +162,33 @@ Ice::Ice(int x, int y)
 
 }
 
+/////////// GOODIE IMPLEMENTATION /////////////
+Goodie::Goodie(int imageID, int startX, int startY, Direction startDirection, float size, unsigned int depth, StudentWorld* w) 
+	:Actor(imageID, startX, startY, startDirection, size, depth, w, 100)
+{
+	
+}
+
+void Goodie::doSomething() {
+	return;
+}
+
+void Goodie::annoy(int dmg) {
+	return;
+}
+
+Goodie::~Goodie() {
+
+}
 /////////// BOULDER IMPLEMENTATION /////////////
 
 Boulder::Boulder(int x, int y, StudentWorld* w)
-	:Actor(IID_BOULDER, x, y, down, 1.0, 1, w, 10) {
+	:Goodie(IID_BOULDER, x, y, down, 1.0, 1, w) {
 	state = 0;
 }
 void Boulder::setState(int st) {
 	state = st;
+	waitingTicks = 30;
 	// 0 = stable
 	// 1 = waiting
 	// 2 = falling
@@ -175,11 +202,11 @@ void Boulder::doSomething() {
 	if (isAlive() == false)
 		return;
 	else {
+		bool flag;
 		switch (getState()) {
 		case 0:
-			bool flag = getWorld()->checkForIce(this);
+			flag = getWorld()->checkForIce(this);
 			if (flag == true) {
-				waitingTicks = 30;
 				setState(1);
 			}
 			break;
@@ -191,7 +218,7 @@ void Boulder::doSomething() {
 			}
 			break;
 		case 2:
-			bool flag = true;
+			flag = true;
 			if (getY() >= 0 && flag == true)
 			{
 				moveTo(getX(), getY() - 1);
@@ -203,7 +230,6 @@ void Boulder::doSomething() {
 			}
 			else {
 				isDead();
-				setVisible(false);
 			}
 			break;
 		}
