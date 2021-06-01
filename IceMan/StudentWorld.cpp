@@ -120,19 +120,6 @@ void StudentWorld::removeIce(Iceman* p1) {
 	}
 }
 
-bool StudentWorld::checkForIce(Boulder* b1) {
-	boulder = b1;
-	int j = boulder->getY() - 1;
-	for (int i = boulder->getX(); i <= boulder->getX() + 3; i++) {
-		if (ice[i][j] != nullptr && j < 60) {
-			return false;
-		}
-		else {
-			return true;
-		}
-
-	}
-}
 
 int StudentWorld::min(int a, int b) {
 	if (a < b)
@@ -151,4 +138,99 @@ int StudentWorld::max(int a, int b) {
 
 int StudentWorld::distance(int x1, int x2, int y1, int y2) {
 	return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+}
+
+bool StudentWorld::withinDistance(int x, int y, double radius) {
+	if (distance(x, player->getX(), y, player->getY()) <= radius) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool StudentWorld::checkUP(int x, int y)
+{
+	bool flag = false;
+	for (int i = x; i < x + 4; i++)
+	{
+		if (y < 60) {
+			if (ice[i][y + 4] == nullptr)
+				flag = true;
+			else
+				flag = false;
+		}
+		//if (isBoulder(x, y + 1, 3.0))
+		//	return false;
+		else {
+			flag = false;
+		}
+	}
+	return flag;
+}
+
+bool StudentWorld::checkDOWN(int x, int y)
+{
+	bool flag = false;
+	for (int i = x; i < x + 4; i++)
+	{
+		if (y > 0)
+		{
+			if (ice[i][y - 1] == nullptr)
+				flag = true;
+			else
+				flag = false;
+
+			//if (isBoulder(x, y - 1, 3.0))
+			//	return false;
+		}
+		else {
+			flag = false;
+		}
+	}
+	return flag;
+}
+
+bool StudentWorld::checkLEFT(int x, int y)
+{
+	bool flag = false;
+	for (int j = y; j < y + 4; j++)
+	{
+		if (x > 0)
+		{
+			if (ice[x - 1][j] == nullptr)
+				flag = true;
+			else
+				flag = false;
+		}
+		else {
+			flag = false;
+		}
+
+		//if (isBoulder(x - 1, y, 3.0))
+		//	return false;
+
+	}
+	return flag;
+}
+
+bool StudentWorld::checkRIGHT(int x, int y)
+{
+	bool flag = false;
+	for (int j = y; j < y + 4; j++)
+	{
+		if (x < 60)
+		{
+			if (ice[x + 4][j] == nullptr)
+				flag = true;
+			else
+				flag = false;
+		}
+		else {
+			flag = false;
+		}
+		//if (isBoulder(x + 1, y, 3.0))
+		//	return false;
+	}
+	return flag;
 }

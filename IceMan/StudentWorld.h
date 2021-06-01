@@ -19,11 +19,16 @@ public:
 	virtual void cleanUp();
 	void removeIce(Iceman* p1);
 	Iceman* getPlayer();
-	bool checkForIce(Boulder* b1);
 	int distance(int x1, int x2, int y1, int y2);
 	int max(int a, int b);
 	int min(int a, int b);
 	bool canDistribute(int x, int y);
+	bool withinDistance(int x, int y, double radius);
+	bool withinProtestorDistance(int x, int y, double radius);
+	bool StudentWorld::checkUP(int x, int y);
+	bool StudentWorld::checkDOWN(int x, int y);
+	bool StudentWorld::checkLEFT(int x, int y);
+	bool StudentWorld::checkRIGHT(int x, int y);
 private:
 	std::vector<Goodie*>goodies;
 	Iceman* player;

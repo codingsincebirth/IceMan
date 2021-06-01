@@ -69,6 +69,15 @@ private:
 
 };
 
+class Squirt : public Goodie {
+public:
+	Squirt(int x, int y, StudentWorld* w);
+	void doSomething();
+	virtual ~Squirt();
+private:
+	int travelDistance;
+};
+
 //class Protestor : public Actor {
 //public:
 //	Protestor(StudentWorld* w);

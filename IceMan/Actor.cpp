@@ -147,10 +147,6 @@ void Iceman::doSomething() {
 void Iceman::annoy(int dmg) {
 	int hp = getNum_hp();
 	hp -= dmg;
-	if (hp <= 0) {
-		getWorld()->decLives();
-		getWorld()->playSound(SOUND_PLAYER_GIVE_UP);
-	}
 }
 
 /////////// ICE IMPLEMENTATION /////////////
@@ -201,11 +197,9 @@ void Boulder::doSomething() {
 	if (isAlive() == false)
 		return;
 	else {
-		bool flag;
 		switch (getState()) {
 		case 0:
-			flag = getWorld()->checkForIce(this);
-			if (flag == true) {
+			if (getWorld()->checkDOWN(getX(), getY())) {
 				setState(1);
 			}
 			break;
@@ -217,14 +211,14 @@ void Boulder::doSomething() {
 			}
 			break;
 		case 2:
-			if (getY() >= 0 && flag == true)
+			if (getWorld()->checkDOWN(getX(), getY()))
 			{
 				moveTo(getX(), getY() - 1);
-				flag = getWorld()->checkForIce(this);
-				if (getX() <= getWorld()->getPlayer()->getX() || getY() <= getWorld()->getPlayer()->getY()) {
+				//getX() <= getWorld()->getPlayer()->getX() || getY() <= getWorld()->getPlayer()->getY()
+				if (getWorld()->withinDistance(getX(), getY(), 3.0)) {
+					isDead();
 					getWorld()->getPlayer()->annoy(100);
 				}
-
 			}
 			else {
 				isDead();
@@ -236,6 +230,61 @@ void Boulder::doSomething() {
 }
 
 Boulder::~Boulder() {}
+
+/////////// SQUIRT IMPLEMENTATION /////////////
+
+Squirt::Squirt(int x, int y, StudentWorld* w)
+	:Goodie(IID_WATER_SPURT, x, y, getWorld()->getPlayer()->getDirection(), 1.0, 1, w)
+{
+	travelDistance = 4;
+}
+
+void Squirt::doSomething() {
+	if (isAlive() != true) {
+		return;
+	}
+	// implement with protestor
+	if (travelDistance > 0)
+	{
+		switch (getDirection()) {
+		case up:
+			if (getWorld()->checkUP(getX(), getY())) {
+				moveTo(getX(), getY() + 1);
+			}
+			else {
+				isDead();
+			}
+			break;
+		case down:
+			if (getWorld()->checkDOWN(getX(), getY())) {
+				moveTo(getX(), getY() - 1);
+			}
+			else {
+				isDead();
+			}
+			break;
+		case left:
+			if (getWorld()->checkLEFT(getX(), getY())) {
+				moveTo(getX() - 1, getY());
+			}
+			else {
+				isDead();
+			}
+			break;
+		case right:
+			if (getWorld()->checkRIGHT(getX(), getY())) {
+				moveTo(getX() + 1, getY());
+			}
+			else {
+				isDead();
+			}
+			break;
+		}
+	}
+	travelDistance--;
+}
+
+Squirt::~Squirt(){}
 
 //Protestor::Protestor(StudentWorld* w)
 //	:Actor(IID_PROTESTER, 60, 60, left, 1, 0, w, 5) {
