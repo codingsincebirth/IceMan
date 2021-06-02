@@ -143,19 +143,6 @@ void StudentWorld::removeIce(Iceman* p1) {
 	}
 }
 
-bool StudentWorld::checkForIce(Boulder* b1) {
-	boulder = b1;
-	int j = boulder->getY() - 1;
-	for (int i = boulder->getX(); i <= boulder->getX() + 3; i++) {
-		if (ice[i][j] != nullptr && j < 60) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-	return true;
-}
-
 int StudentWorld::min(int a, int b) {
 	if (a < b)
 		return a;
