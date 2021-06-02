@@ -84,6 +84,16 @@ private:
 
 };
 
+class Squirt : public Goodie {
+public:
+	Squirt(int x, int y, StudentWorld* w, Iceman* p1);
+	void doSomething();
+	virtual ~Squirt();
+private:
+	int travelDistance;
+	Iceman* player;
+};
+
 //class Protestor : public Actor {
 //public:
 //	Protestor(StudentWorld* w);
