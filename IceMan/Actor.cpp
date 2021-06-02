@@ -171,6 +171,10 @@ void Goodie::doSomething() {
 	return;
 }
 
+int Goodie::classType() {
+	return 0;
+}
+
 void Goodie::annoy(int dmg) {
 	return;
 }
@@ -181,7 +185,7 @@ Goodie::~Goodie() {
 /////////// BOULDER IMPLEMENTATION /////////////
 
 Boulder::Boulder(int x, int y, StudentWorld* w)
-	:Goodie(IID_BOULDER, x, y, down, 1.0, 1, w) {
+	: Goodie(IID_BOULDER, x, y, down, 1.0, 1, w) {
 	state = 0;
 	waitingTicks = 30;
 }
@@ -236,12 +240,42 @@ void Boulder::doSomething() {
 
 }
 
+int Boulder::classType() {
+	return 1;
+}
+
 Boulder::~Boulder() {}
 
+/////////// BARREL IMPLEMENTATION /////////////
 Barrel::Barrel(int x, int y, StudentWorld* w)
-	:Actor(IID_BARREL, x, y, right, 1.0, 2, w, 10) {
-	state = 0;
+	: Goodie(IID_BARREL, x, y, right, 1.0, 2, w) {
+	setVisible(true);
 }
+
+void Barrel::doSomething() {
+	if (isAlive() == false) {
+		return;
+	} else if (isVisible() == false && 
+			getWorld()->distance(getX(), getY(), 
+			getWorld()->getPlayer()->getX(), 
+			getWorld()->getPlayer()->getY() <= 4)) {
+			setVisible(true);
+		return;
+	} else if (getWorld()->distance(getX(), getY(), 
+			getWorld()->getPlayer()->getX(), 
+			getWorld()->getPlayer()->getY() <= 3)) {
+		isDead();
+		getWorld()->playSound(SOUND_FOUND_OIL);
+		getWorld()->increaseScore(1000);
+		return;
+	}
+}
+
+int Barrel::classType() {
+	return 2;
+}
+
+Barrel::~Barrel() {}
 
 //Protestor::Protestor(StudentWorld* w)
 //	:Actor(IID_PROTESTER, 60, 60, left, 1, 0, w, 5) {
