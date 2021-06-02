@@ -21,6 +21,7 @@ public:
 	virtual int move();
 	virtual void cleanUp();
 	void removeIce(Iceman* p1);
+	bool checkForIce(Boulder* b1);
 	Iceman* getPlayer();
 	int distance(int x1, int x2, int y1, int y2);
 	int max(int a, int b);
