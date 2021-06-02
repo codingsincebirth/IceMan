@@ -69,18 +69,24 @@ int StudentWorld::move()
 		decLives();
 		return GWSTATUS_PLAYER_DIED;
 	}
-	
 	for (int i = 0; i < goodies.size(); i++) {
 		goodies[i]->doSomething();
 	}
-	for (int i = 0; i < goodies.size(); i++) {
+	for (int i = 0; i < goodies.size();) {
 		if (goodies[i]->isAlive() != true) {
 			delete goodies[i];
 			goodies[i] = nullptr;
 			goodies.erase(goodies.begin() + i);
-			--i;
+			
+		}
+		else {
+			i++;
 		}
 	}
+	if (player->isAlive() == true) {
+		return GWSTATUS_CONTINUE_GAME;
+	}
+	return GWSTATUS_CONTINUE_GAME;
 }
 
 void StudentWorld::cleanUp() {
@@ -92,11 +98,10 @@ void StudentWorld::cleanUp() {
 			}
 		}
 	}
-	for (int i = 0; i < goodies.size(); i++) {
+	for (int i = 0; i < goodies.size();) {
 		delete goodies[i];
 		goodies[i] = nullptr;
 		goodies.erase(goodies.begin() + i);
-		--i;
 	}
 	delete player;
 }
