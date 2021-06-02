@@ -185,6 +185,7 @@ Boulder::Boulder(int x, int y, StudentWorld* w)
 	state = 0;
 	waitingTicks = 30;
 }
+
 void Boulder::setState(int st) {
 	state = st;
 	
@@ -236,6 +237,11 @@ void Boulder::doSomething() {
 }
 
 Boulder::~Boulder() {}
+
+Barrel::Barrel(int x, int y, StudentWorld* w)
+	:Actor(IID_BARREL, x, y, right, 1.0, 2, w, 10) {
+	state = 0;
+}
 
 //Protestor::Protestor(StudentWorld* w)
 //	:Actor(IID_PROTESTER, 60, 60, left, 1, 0, w, 5) {
