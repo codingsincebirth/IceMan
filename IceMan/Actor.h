@@ -34,6 +34,12 @@ class Goodie :public Actor {
 public:
 	Goodie(int imageID, int startX, int startY, Direction startDirection, float size, unsigned int depth, StudentWorld* w);
 	virtual void doSomething();
+	virtual int classType();
+	/*
+	1 boulder
+  	2 barrel
+  	3 gold
+	*/
 	virtual ~Goodie();
 	void annoy(int dmg);
 };
@@ -56,10 +62,19 @@ public:
 	Ice(int x, int y);
 };
 
+class Barrel : public Goodie {
+public:
+	Barrel(int x, int y, StudentWorld* w);
+	void doSomething();
+	int classType();
+	virtual ~Barrel();
+};
+
 class Boulder : public Goodie {
 public:
 	Boulder(int x, int y, StudentWorld* w);
 	void doSomething();
+	int classType();
 	virtual ~Boulder();
 	void setState(int st);
 	int getState();
