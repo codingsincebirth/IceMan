@@ -194,7 +194,7 @@ bool StudentWorld::checkDOWN(int x, int y)
 
 bool StudentWorld::checkLEFT(int x, int y)
 {
-	bool flag = false;
+	bool flag = true;
 	for (int j = y; j < y + 4; j++)
 	{
 		if (x > 0)
@@ -238,20 +238,20 @@ bool StudentWorld::checkRIGHT(int x, int y)
 
 void StudentWorld::shoot(Iceman* p1) {
 	Goodie* g;
-	switch (player->getDirection()) {
+	switch (p1->getDirection()) {
 	case up:
 		if (p1->getY() <= 60)
 		{
-			bool flag = false;
+			bool flag = true;
 			for (int i = 0; i < 4; i++)
 			{
-				if (checkUP(p1->getX(), p1->getY() + i) != true) {
+				if (!checkUP(p1->getX(), p1->getY() + i)) {
 					flag = false;
 					break;
 				}
 			}
 			if (flag == true) {
-				g = new Squirt(p1->getX(), p1->getY() + 4, this, player);
+				g = new Squirt(p1->getX(), p1->getY() + 4, this, p1);
 				goodies.push_back(g);
 			}
 		}
@@ -259,16 +259,16 @@ void StudentWorld::shoot(Iceman* p1) {
 	case down:
 		if (p1->getY() >= 4)
 		{
-			bool flag = false;
+			bool flag = true;
 			for (int i = 0; i < 4; i++)
 			{
-				if (checkDOWN(p1->getX(), p1->getY() - i) != true) {
+				if (!checkDOWN(p1->getX(), p1->getY() - i)) {
 					flag = false;
 					break;
 				}
 			}
 			if (flag == true) {
-				g = new Squirt(p1->getX(), p1->getY() - 4, this, player);
+				g = new Squirt(p1->getX(), p1->getY() - 4, this, p1);
 				goodies.push_back(g);
 			}
 		}
@@ -276,7 +276,7 @@ void StudentWorld::shoot(Iceman* p1) {
 	case left:
 		if (p1->getX() >= 4)
 		{
-			bool flag = false;
+			bool flag = true;
 			for (int i = 0; i < 4; i++)
 			{
 				if (checkLEFT(p1->getX() - i, p1->getY()) != true) {
@@ -285,7 +285,7 @@ void StudentWorld::shoot(Iceman* p1) {
 				}
 			}
 			if (flag == true) {
-				g = new Squirt(p1->getX() - 4, p1->getY(), this, player);
+				g = new Squirt(p1->getX() - 4, p1->getY(), this, p1);
 				goodies.push_back(g);
 			}
 		}
@@ -293,7 +293,7 @@ void StudentWorld::shoot(Iceman* p1) {
 	case right:
 		if (p1->getX() < 57)
 		{
-			bool flag = false;
+			bool flag = true;
 			for (int i = 0; i < 4; i++)
 			{
 				if (checkRIGHT(p1->getX() + i, p1->getY()) != true) {
@@ -302,7 +302,7 @@ void StudentWorld::shoot(Iceman* p1) {
 				}
 			}
 			if (flag == true) {
-				g = new Squirt(p1->getX() + 4, p1->getY(), this, player);
+				g = new Squirt(p1->getX() + 4, p1->getY(), this, p1);
 				goodies.push_back(g);
 			}
 		}

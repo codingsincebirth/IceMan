@@ -76,6 +76,7 @@ public:
 	virtual ~Squirt();
 private:
 	int travelDistance;
+	Iceman* player;
 };
 
 //class Protestor : public Actor {

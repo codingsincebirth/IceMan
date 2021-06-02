@@ -243,6 +243,7 @@ Squirt::Squirt(int x, int y, StudentWorld* w, Iceman* p1)
 	:Goodie(IID_WATER_SPURT, x, y, p1->getDirection(), 1.0, 1, w)
 {
 	travelDistance = 4;
+	player = p1;
 }
 
 void Squirt::doSomething() {
@@ -251,47 +252,49 @@ void Squirt::doSomething() {
 	}
 	// implement with protestor
 	
-	switch (getDirection()) {
-	case up:
-		if (getWorld()->checkUP(getX(), getY())) {
-			moveTo(getX(), getY() + 1);
+	if (travelDistance > 0)
+	{
+		switch (getDirection()) {
+		case up:
+			if (getWorld()->checkUP(getX(), getY())) {
+				moveTo(getX(), getY() + 1);
+			}
+			else {
+				isDead();
+			}
+			break;
+		case down:
+			if (getWorld()->checkDOWN(getX(), getY())) {
+				moveTo(getX(), getY() - 1);
+			}
+			else {
+				isDead();
+			}
+			break;
+		case left:
+			if (getWorld()->checkLEFT(getX(), getY())) {
+				moveTo(getX() - 1, getY());
+			}
+			else {
+				isDead();
+			}
+			break;
+		case right:
+			if (getWorld()->checkRIGHT(getX(), getY())) {
+				moveTo(getX() + 1, getY());
+			}
+			else {
+				isDead();
+			}
+			break;
 		}
-		else {
-			isDead();
-		}
-		break;
-	case down:
-		if (getWorld()->checkDOWN(getX(), getY())) {
-			moveTo(getX(), getY() - 1);
-		}
-		else {
-			isDead();
-		}
-		break;
-	case left:
-		if (getWorld()->checkLEFT(getX(), getY())) {
-			moveTo(getX() - 1, getY());
-		}
-		else {
-			isDead();
-		}
-		break;
-	case right:
-		if (getWorld()->checkRIGHT(getX(), getY())) {
-			moveTo(getX() + 1, getY());
-		}
-		else {
-			isDead();
-		}
-		break;
-	}
-	if (travelDistance > 0) {
 		travelDistance--;
 	}
 	else {
 		isDead();
 		return;
 	}
+	
 }
 
 Squirt::~Squirt(){}
