@@ -71,7 +71,7 @@ private:
 
 class Squirt : public Goodie {
 public:
-	Squirt(int x, int y, StudentWorld* w);
+	Squirt(int x, int y, StudentWorld* w, Iceman* p1);
 	void doSomething();
 	virtual ~Squirt();
 private:

@@ -2,6 +2,7 @@
 #define STUDENTWORLD_H_
 #include "GameWorld.h"
 #include "GameConstants.h"
+#include "GraphObject.h"
 #include <string>
 #include <vector>
 
@@ -11,8 +12,10 @@ class Ice;
 class Boulder;
 class Goodie;
 
+
 class StudentWorld : public GameWorld {
 public:
+	enum Direction { none, up, down, left, right };
 	StudentWorld(std::string assetDir) : GameWorld(assetDir) {}
 	virtual int init();
 	virtual int move();
@@ -29,6 +32,7 @@ public:
 	bool StudentWorld::checkDOWN(int x, int y);
 	bool StudentWorld::checkLEFT(int x, int y);
 	bool StudentWorld::checkRIGHT(int x, int y);
+	void shoot(Iceman* p1);
 private:
 	std::vector<Goodie*>goodies;
 	Iceman* player;

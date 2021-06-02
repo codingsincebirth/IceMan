@@ -1,5 +1,6 @@
 #include "StudentWorld.h"
 #include "Actor.h"
+#include "GameConstants.h"
 #include <string>
 #include <cmath>
 using namespace std;
@@ -233,4 +234,81 @@ bool StudentWorld::checkRIGHT(int x, int y)
 		//	return false;
 	}
 	return flag;
+}
+
+void StudentWorld::shoot(Iceman* p1) {
+	Goodie* g;
+	switch (player->getDirection()) {
+	case up:
+		if (p1->getY() <= 60)
+		{
+			bool flag = false;
+			for (int i = 0; i < 4; i++)
+			{
+				if (checkUP(p1->getX(), p1->getY() + i) != true) {
+					flag = false;
+					break;
+				}
+			}
+			if (flag == true) {
+				g = new Squirt(p1->getX(), p1->getY() + 4, this, player);
+				goodies.push_back(g);
+			}
+		}
+		break;
+	case down:
+		if (p1->getY() >= 4)
+		{
+			bool flag = false;
+			for (int i = 0; i < 4; i++)
+			{
+				if (checkDOWN(p1->getX(), p1->getY() - i) != true) {
+					flag = false;
+					break;
+				}
+			}
+			if (flag == true) {
+				g = new Squirt(p1->getX(), p1->getY() - 4, this, player);
+				goodies.push_back(g);
+			}
+		}
+		break;
+	case left:
+		if (p1->getX() >= 4)
+		{
+			bool flag = false;
+			for (int i = 0; i < 4; i++)
+			{
+				if (checkLEFT(p1->getX() - i, p1->getY()) != true) {
+					flag = false;
+					break;
+				}
+			}
+			if (flag == true) {
+				g = new Squirt(p1->getX() - 4, p1->getY(), this, player);
+				goodies.push_back(g);
+			}
+		}
+		break;
+	case right:
+		if (p1->getX() < 57)
+		{
+			bool flag = false;
+			for (int i = 0; i < 4; i++)
+			{
+				if (checkRIGHT(p1->getX() + i, p1->getY()) != true) {
+					flag = false;
+					break;
+				}
+			}
+			if (flag == true) {
+				g = new Squirt(p1->getX() + 4, p1->getY(), this, player);
+				goodies.push_back(g);
+			}
+		}
+		break;
+	}
+	playSound(SOUND_PLAYER_SQUIRT);
+
+
 }
