@@ -28,16 +28,18 @@ public:
 	bool canDistribute(int x, int y);
 	bool withinDistance(int x, int y, double radius);
 	bool withinProtestorDistance(int x, int y, double radius);
-	bool StudentWorld::checkUP(int x, int y);
-	bool StudentWorld::checkDOWN(int x, int y);
-	bool StudentWorld::checkLEFT(int x, int y);
-	bool StudentWorld::checkRIGHT(int x, int y);
+	bool checkUP(int x, int y);
+	bool checkDOWN(int x, int y);
+	bool checkLEFT(int x, int y);
+	bool checkRIGHT(int x, int y);
 	void shoot(Iceman* p1);
+	void decBarrels();
 private:
 	std::vector<Goodie*>goodies;
 	Iceman* player;
 	Ice* ice[64][64];
 	Boulder* boulder;
+	int num_barrels;
 };
 
 #endif // STUDENTWORLD_H_

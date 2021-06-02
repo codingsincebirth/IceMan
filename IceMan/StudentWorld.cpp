@@ -39,7 +39,7 @@ int StudentWorld::init() {
 			if (x < 26 || x > 33 && canDistribute(x, y))
 				break;
 		}
-		Goodie* g = new Boulder(x, y, this);
+		Goodie *g = new Boulder(x, y, this);
 		for (int j = 0; j < 4; j++) {
 			for (int k = 0; k < 4; k++) {
 				delete ice[g->getX() + j][g->getY() + k];
@@ -49,13 +49,15 @@ int StudentWorld::init() {
 		goodies.push_back(g);
 	}
 	// Barrels
-	int L = min(2 + getLevel(), 21);
-	for (int i = 0; i < L; i++) {
+	num_barrels = min(2 + getLevel(), 21);
+	for (int i = 0; i < num_barrels; i++) {
 		int x, y;
 		for (;;) {
 			x = rand() % 61;
 			y = rand() % 37 + 20;
-			if (x < 26 || x > 33 && canDistribute(x, y))
+			if (y == 0 && canDistribute(x, y))
+				break;
+			else if ((x <= 26 || x >= 33) && canDistribute(x, y))
 				break;
 		}
 		Goodie* g = new Barrel(x, y, this);
@@ -63,17 +65,6 @@ int StudentWorld::init() {
 	}
 	
 	// Check if any barrels left
-	bool isBarreRemaining = true;
-	for (int i = 0;;i++) {
-		if (goodies[i]->classType() == 2){
-			isBarreRemaining = false;
-			break;
-		}
-	}
-	if (isBarreRemaining == false) {
-		playSound(SOUND_FINISHED_LEVEL);
-		return GWSTATUS_FINISHED_LEVEL;
-	}
 	return GWSTATUS_CONTINUE_GAME;
 }
 bool StudentWorld::canDistribute(int x, int y) {
@@ -104,7 +95,22 @@ int StudentWorld::move() {
 			i++;
 		}
 	}
-	if (player->isAlive() == true) {
+	if (num_barrels <= 0) {
+		playSound(SOUND_FINISHED_LEVEL);
+		return GWSTATUS_FINISHED_LEVEL;
+	}
+	/*bool isBarrelRemaining = true;
+	for (int i = 0; i < goodies.size(); i++) {
+		if (goodies[i]->classType() == 2) {
+			isBarrelRemaining = false;
+			break;
+		}
+	}
+	if (isBarrelRemaining == false) {
+		playSound(SOUND_FINISHED_LEVEL);
+		return GWSTATUS_FINISHED_LEVEL;
+	}*/
+	else if (player->isAlive() == true) {
 		return GWSTATUS_CONTINUE_GAME;
 	}
 	return GWSTATUS_CONTINUE_GAME;
@@ -335,6 +341,8 @@ void StudentWorld::shoot(Iceman* p1) {
 		break;
 	}
 	playSound(SOUND_PLAYER_SQUIRT);
+}
 
-
+void StudentWorld::decBarrels() {
+	num_barrels--;
 }

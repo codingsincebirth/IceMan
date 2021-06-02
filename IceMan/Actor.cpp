@@ -255,18 +255,16 @@ Barrel::Barrel(int x, int y, StudentWorld* w)
 void Barrel::doSomething() {
 	if (isAlive() == false) {
 		return;
-	} else if (isVisible() == false && 
-			getWorld()->distance(getX(), getY(), 
-			getWorld()->getPlayer()->getX(), 
-			getWorld()->getPlayer()->getY() <= 4)) {
-			setVisible(true);
+	} 
+	else if (isVisible() == false && getWorld()->withinDistance(getX(), getY(), 4.0)) {
+		setVisible(true);
 		return;
-	} else if (getWorld()->distance(getX(), getY(), 
-			getWorld()->getPlayer()->getX(), 
-			getWorld()->getPlayer()->getY() <= 3)) {
+	} 
+	else if (getWorld()->withinDistance(getX(), getY(), 3.0)) {
 		isDead();
 		getWorld()->playSound(SOUND_FOUND_OIL);
 		getWorld()->increaseScore(1000);
+		getWorld()->decBarrels();
 		return;
 	}
 }
