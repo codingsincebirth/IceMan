@@ -34,12 +34,18 @@ public:
 	bool checkRIGHT(int x, int y);
 	void shoot(Iceman* p1);
 	void decBarrels();
+	bool isSonar();
+	bool isBoulder(int x, int y, double radius);
 private:
 	std::vector<Goodie*>goodies;
 	Iceman* player;
 	Ice* ice[64][64];
 	Boulder* boulder;
+	int num_boulders;
 	int num_barrels;
+	int m_goodie;
+	int num_nuggets;
+	int num_waterpools;
 };
 
 #endif // STUDENTWORLD_H_

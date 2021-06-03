@@ -39,6 +39,8 @@ public:
 	1 boulder
   	2 barrel
   	3 gold
+	4 water pool
+	5 sonar
 	*/
 	virtual ~Goodie();
 	void annoy(int dmg);
@@ -50,6 +52,9 @@ public:
 	void doSomething();
 	void annoy(int dmg);
 	virtual ~Iceman();
+	void inc_water();
+	void inc_gold();
+	void dec_gold();
 private:
 	int num_water;
 	int num_sonarCharge;
@@ -94,6 +99,37 @@ private:
 	Iceman* player;
 };
 
+class Waterpool : public Goodie {
+public:
+	Waterpool(int x, int y, StudentWorld* w);
+	void doSomething();
+	virtual ~Waterpool();
+private:
+	int num_ticks;
+};
+
+class Nuggets : public Goodie {
+public:
+	Nuggets(int x, int y, StudentWorld* w);
+	void doSomething();
+	virtual ~Nuggets();
+	int getState();
+	void setState(int st);
+private:
+	int state;
+	int num_ticks;
+};
+
+class Sonar : public Goodie {
+public:
+	Sonar(int x, int y, StudentWorld* w);
+	void doSomething();
+	int classType();
+	~Sonar();
+	
+private:
+	int num_ticks;
+};
 //class Protestor : public Actor {
 //public:
 //	Protestor(StudentWorld* w);

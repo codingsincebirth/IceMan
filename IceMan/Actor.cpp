@@ -3,16 +3,6 @@
 #include <cmath>
 
 // Students:  Add code to this file (if you wish), Actor.h, StudentWorld.h, and StudentWorld.cpp
-struct Position {
-	int x;
-	int y;
-	Position(int x, int y)
-	{
-		this->x = x;
-		this->y = y;
-	}
-
-};
 
 BaseObject::BaseObject(int imageID, int startX, int startY, Direction startDirection, float size, unsigned int depth):
 	GraphObject(imageID, startX, startY, startDirection, size, depth) {
@@ -145,6 +135,9 @@ void Iceman::doSomething() {
 			}
 		}
 	}
+}
+void Iceman::inc_water() {
+	num_water += 5;
 }
 
 void Iceman::annoy(int dmg) {
@@ -336,6 +329,122 @@ void Squirt::doSomething() {
 }
 
 Squirt::~Squirt(){}
+
+/////////// WATER POOL IMPLEMENTATION /////////////
+
+Waterpool::Waterpool(int x, int y, StudentWorld* w)
+	:Goodie(IID_WATER_POOL, x, y, right, 1.0, 2, w)
+{
+	num_ticks = getWorld()->max(100, 300 - (10 * getWorld()->getLevel()));
+}
+
+void Waterpool::doSomething() {
+	if (isAlive() != true) {
+		return;
+	}
+	if (num_ticks > 0)
+	{
+		if (getWorld()->withinDistance(getX(), getY(), 3.0)) {
+			isDead();
+			getWorld()->playSound(SOUND_GOT_GOODIE);
+			getWorld()->getPlayer()->inc_water(); // increase water count
+		}
+	}
+	else {
+		isDead();
+	}
+	num_ticks--;
+}
+Waterpool::~Waterpool() {
+
+}
+
+/////////// GOLD NUGGETS IMPLEMENTATION /////////////
+Nuggets::Nuggets(int x, int y, StudentWorld *w)
+	:Goodie(IID_GOLD, x, y, right, 1.0, 2, w) 
+{
+	state = 0;
+	num_ticks = getWorld()->max(100, 300 - (10 * getWorld()->getLevel()));
+	setVisible(true);
+}
+
+void Nuggets::setState(int st) {
+	state = st;
+	//0 = permanant;
+	//1 = temperoray;
+}
+
+int Nuggets::getState() {
+	return state;
+}
+//void Nuggets::visible(int st) {
+//	if (st == 0) {
+//		setVisible(true);
+//	}
+//	else if (st == 1) {
+//		setVisible(false);
+//	}
+//}
+
+void Nuggets::doSomething() {
+	if (isAlive() != true) {
+		return;
+	}
+	switch (getState()) {
+	case 0:
+		if (isVisible() == false && getWorld()->withinDistance(getX(), getY(), 4.0)) {
+			setVisible(true);
+			return;
+
+		}
+		else if (getWorld()->withinDistance(getX(), getY(), 3.0)) {
+			isDead();
+			getWorld()->playSound(SOUND_GOT_GOODIE);
+			setState(1);
+		}
+		break;
+	case 1:
+		if(num_ticks > 0){
+			//Implement with protestor
+		}
+		else if(num_ticks <= 0) {
+			isDead();
+		}
+		num_ticks--;
+		break;
+	}
+}
+Nuggets::~Nuggets() {
+
+}
+
+/////////// SONAR KITS IMPLEMENTATION /////////////
+Sonar::Sonar(int x, int y, StudentWorld* w)
+	:Goodie(IID_SONAR, x, y, right, 1.0, 2, w) {
+	num_ticks = getWorld()->max(100, 300 - (10 * getWorld()->getLevel()));
+}
+
+void Sonar::doSomething() {
+	if (isAlive() != true) {
+		return;
+	}
+	else if(num_ticks > 0)
+	{
+		if (getWorld()->withinDistance(getX(), getY(), 3.0)) {
+			isDead();
+			getWorld()->playSound(SOUND_GOT_GOODIE);
+		}
+	}
+	num_ticks--;
+
+}
+int Sonar::classType() {
+	return 5;
+}
+
+Sonar::~Sonar() {
+
+}
 
 //Protestor::Protestor(StudentWorld* w)
 //	:Actor(IID_PROTESTER, 60, 60, left, 1, 0, w, 5) {
