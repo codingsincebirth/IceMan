@@ -118,7 +118,7 @@ int StudentWorld::move() {
 		else{
 			int x, y;
 			int num_pools = 0;
-			while (num_pools != 16) {
+			if (num_pools != 16) {
 				x = rand() % 61;
 				y = rand() % 57;
 				if (canDistribute(x, y) && ice[x][y] == nullptr) {
@@ -422,4 +422,5 @@ bool StudentWorld::isSonar() {
 			return true;
 		}
 	}
+	return false;
 }
