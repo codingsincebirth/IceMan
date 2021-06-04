@@ -14,7 +14,9 @@ rightmost column ice wouldnt be deleted
     not sure how it was solved
 distance function entirely messed up overlapping and boulder fall check
     parameters were swapped
-
+status line was not showing up
+    setGameStatText was placed at end of move(), so it never got called because move() returned a game state before ever calling setGameStatText
+    fixed by placing setGameStatText at beginning
 
 bugs to fix
 water pool spawns in ice

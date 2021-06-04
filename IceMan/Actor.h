@@ -50,6 +50,9 @@ public:
 	void inc_gold();
 	void dec_gold();
 	void inc_sonar();
+	int getWater();
+	int getSonar();
+	int getGoldNugs();
 private:
 	int num_water;
 	int num_sonarCharge;
