@@ -22,7 +22,7 @@ public:
 	virtual void cleanUp();
 	void removeIce(Iceman* p1);
 	Iceman* getPlayer();
-	int distance(int x1, int x2, int y1, int y2);
+	double distance(int x1, int x2, int y1, int y2);
 	int max(int a, int b);
 	int min(int a, int b);
 	bool canDistribute(int x, int y);
@@ -35,11 +35,11 @@ public:
 	void decBarrels();
 	bool isSonar();
 	bool isBoulder(int x, int y, double radius);
+	void activateSonar(int x, int y);
 private:
 	std::vector<Goodie*>goodies;
 	Iceman* player;
 	Ice* ice[64][64];
-	Boulder* boulder;
 	int num_boulders;
 	int num_barrels;
 	int m_goodie;

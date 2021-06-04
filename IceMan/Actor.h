@@ -55,6 +55,7 @@ public:
 	void inc_water();
 	void inc_gold();
 	void dec_gold();
+	void inc_sonar();
 private:
 	int num_water;
 	int num_sonarCharge;

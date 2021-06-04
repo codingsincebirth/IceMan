@@ -81,7 +81,7 @@ int StudentWorld::init() {
 	return GWSTATUS_CONTINUE_GAME;
 }
 bool StudentWorld::canDistribute(int x, int y) {
-	for (int i = 0; i < goodies.size(); i++) {
+	for (size_t i = 0; i < goodies.size(); i++) {
 		if (distance(goodies[i]->getX() + 2, x + 2, goodies[i]->getY() + 2, y + 2) <= 6.0)
 			return false;
 	}
@@ -94,10 +94,10 @@ int StudentWorld::move() {
 		decLives();
 		return GWSTATUS_PLAYER_DIED;
 	}
-	for (int i = 0; i < goodies.size(); i++) {
+	for (size_t i = 0; i < goodies.size(); i++) {
 		goodies[i]->doSomething();
 	}
-	for (int i = 0; i < goodies.size();) {
+	for (size_t i = 0; i < goodies.size();) {
 		if (goodies[i]->isAlive() != true) {
 			delete goodies[i];
 			goodies[i] = nullptr;
@@ -155,7 +155,7 @@ void StudentWorld::cleanUp() {
 			}
 		}
 	}
-	for (int i = 0; i < goodies.size();) {
+	for (size_t i = 0; i < goodies.size();) {
 		delete goodies[i];
 		goodies[i] = nullptr;
 		goodies.erase(goodies.begin() + i);
@@ -174,7 +174,7 @@ void StudentWorld::removeIce(Iceman* p1) {
 			if (ice[i][j] != nullptr && j < 60) {
 				delete ice[i][j];
 				ice[i][j] = nullptr;
-				/*playSound(SOUND_DIG);*/
+				playSound(SOUND_DIG);
 			}
 		}
 	}
@@ -196,7 +196,7 @@ int StudentWorld::max(int a, int b) {
 	}
 }
 
-int StudentWorld::distance(int x1, int x2, int y1, int y2) {
+double StudentWorld::distance(int x1, int x2, int y1, int y2) {
 	return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 }
 
@@ -358,6 +358,18 @@ void StudentWorld::shoot(Iceman* p1) {
 		break;
 	}
 	playSound(SOUND_PLAYER_SQUIRT);
+}
+
+void StudentWorld::activateSonar(int x, int y) {
+	for (size_t i = 0; i < goodies.size(); i++) {
+		if (!goodies[i]->isVisible())
+		{
+			if (distance(goodies[i]->getX(), x, goodies[i]->getY(), y) <= 12.0) {
+				goodies[i]->setVisible(true);
+			}
+		}
+	}
+	playSound(SOUND_SONAR);
 }
 
 void StudentWorld::decBarrels() {

@@ -125,9 +125,12 @@ void Iceman::doSomething() {
 					num_water--;
 				}
 				break;
-			case 'z'||'Z':
-				//sonar charge
-				num_sonarCharge--;
+			case 'z':
+			case 'Z':
+				if (num_sonarCharge > 0) {
+					getWorld()->activateSonar(getX(), getY());
+					num_sonarCharge--;
+				}
 				break;
 			case KEY_PRESS_TAB:
 				//gold nugget
@@ -139,6 +142,18 @@ void Iceman::doSomething() {
 }
 void Iceman::inc_water() {
 	num_water += 5;
+}
+
+void Iceman::inc_gold() {
+	num_goldNugs += 1;
+}
+
+void Iceman::dec_gold() {
+	num_goldNugs -= 1;
+}
+
+void Iceman::inc_sonar() {
+	num_sonarCharge += 1;
 }
 
 void Iceman::annoy(int dmg) {
@@ -351,7 +366,7 @@ void Waterpool::doSomething() {
 		if (getWorld()->withinDistanceofPlayer(getX(), getY(), 3.0)) {
 			isDead();
 			getWorld()->playSound(SOUND_GOT_GOODIE);
-			getWorld()->getPlayer()->inc_water(); // increase water count
+			getWorld()->getPlayer()->inc_water(); // increase water count by 5
 		}
 	}
 	else {
@@ -396,6 +411,8 @@ void Nuggets::doSomething() {
 		else if (getWorld()->withinDistanceofPlayer(getX(), getY(), 3.0)) {
 			isDead();
 			getWorld()->playSound(SOUND_GOT_GOODIE);
+			getWorld()->increaseScore(25);
+			getWorld()->getPlayer()->inc_gold(); // increase gold nuggets by 1
 			setState(1);
 		}
 		break;
@@ -429,6 +446,8 @@ void Sonar::doSomething() {
 		if (getWorld()->withinDistanceofPlayer(getX(), getY(), 3.0)) {
 			isDead();
 			getWorld()->playSound(SOUND_GOT_GOODIE);
+			getWorld()->increaseScore(75);
+			getWorld()->getPlayer()->inc_sonar();
 		}
 	}
 	num_ticks--;
