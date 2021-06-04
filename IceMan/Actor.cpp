@@ -243,7 +243,7 @@ Boulder::~Boulder() {}
 /////////// BARREL IMPLEMENTATION /////////////
 Barrel::Barrel(int x, int y, StudentWorld* w)
 	: Goodie(IID_BARREL, x, y, right, 1.0, 2, w) {
-	setVisible(true);
+	setVisible(false);
 }
 
 void Barrel::doSomething() {
@@ -366,7 +366,7 @@ Nuggets::Nuggets(int x, int y, StudentWorld *w)
 {
 	state = 0;
 	num_ticks = getWorld()->max(100, 300 - (10 * getWorld()->getLevel()));
-	setVisible(true);
+	setVisible(false);
 }
 
 void Nuggets::setState(int st) {
@@ -378,14 +378,6 @@ void Nuggets::setState(int st) {
 int Nuggets::getState() {
 	return state;
 }
-//void Nuggets::visible(int st) {
-//	if (st == 0) {
-//		setVisible(true);
-//	}
-//	else if (st == 1) {
-//		setVisible(false);
-//	}
-//}
 
 void Nuggets::doSomething() {
 	if (isAlive() != true) {
@@ -437,8 +429,8 @@ void Sonar::doSomething() {
 		}
 	}
 	num_ticks--;
-
 }
+
 int Sonar::classType() {
 	return 5;
 }

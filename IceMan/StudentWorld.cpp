@@ -135,32 +135,6 @@ int StudentWorld::move() {
 			goodies.push_back(g);
 		}
 	}
-	//if (G == 0) {
-	//	int chance = rand() % 5; // 0 - 4
-	//	if (chance == 0 && isSonar() == false) {
-	//		/*Goodie* g = new Sonar(0, 60, this);
-	//		goodies.push_back(g);*/
-	//	}
-	//	else {
-	//		int x, y;
-	//		int num_pools = 0;
-	//		while (num_pools != 16) {
-	//			x = rand() % 61;
-	//			y = rand() % 57;
-	//			if (canDistribute(x, y) && ice[x][y] == nullptr) {
-	//				for (int i = 0; i < 4; i++) {
-	//					for (int j = 0; j < 4; j++) {
-	//						if (ice[x + i][y + j] == nullptr) {
-	//							num_pools++;
-	//						}
-	//					}
-	//				}
-	//			}
-	//		}
-	//		Goodie* g = new Waterpool(x, y, this);
-	//		goodies.push_back(g);
-	//	}
-	//}
 	if (num_barrels <= 0) {
 		playSound(SOUND_FINISHED_LEVEL);
 		return GWSTATUS_FINISHED_LEVEL;
