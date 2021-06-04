@@ -381,6 +381,7 @@ Waterpool::~Waterpool() {
 }
 
 /////////// PERMANANT GOLD NUGGETS IMPLEMENTATION /////////////
+
 Perm_Nuggets::Perm_Nuggets(int x, int y, StudentWorld *w)
 	:Goodie(IID_GOLD, x, y, right, 1.0, 2, w) 
 {

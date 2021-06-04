@@ -36,7 +36,7 @@ int StudentWorld::init() {
 		for (;;) {
 			x = rand() % 61; // 0 - 60
 			y = rand() % 37 + 20; // 20 - 56
-			if (x < 30 || x > 33 && canDistribute(x, y))
+			if (x < 30 || x > 33 && canDistribute(x, y)) // Accounting for the tunnel from x = 30 to x = 33
 				break;
 		}
 		Goodie *g = new Boulder(x, y, this);
@@ -60,8 +60,7 @@ int StudentWorld::init() {
 			else if ((x < 30 || x > 33) && canDistribute(x, y))
 				break;
 		}
-		Goodie* g = new Barrel(x, y, this);
-		goodies.push_back(g);
+		goodies.push_back(new Barrel(x, y, this));
 	}
 	num_nuggets = max(5 - (getLevel() / 2), 2);
 	for (int i = 0; i < num_nuggets; i++) {
@@ -74,8 +73,7 @@ int StudentWorld::init() {
 			else if ((x < 30 || x > 33) && canDistribute(x, y))
 				break;
 		}
-		Goodie* g = new Perm_Nuggets(x, y, this);
-		goodies.push_back(g);
+		goodies.push_back(new Perm_Nuggets(x, y, this));
 	}
 	// Check if any barrels left
 	return GWSTATUS_CONTINUE_GAME;
@@ -102,7 +100,6 @@ int StudentWorld::move() {
 			delete goodies[i];
 			goodies[i] = nullptr;
 			goodies.erase(goodies.begin() + i);
-			
 		}
 		else {
 			i++;
@@ -126,31 +123,6 @@ int StudentWorld::move() {
 				goodies.push_back(new Waterpool(x, y, this));
 			}
 		}
-		//else{
-
-		//	/*int x, y;
-		//	bool flag = false;
-		//	x = rand() % 61;
-		//	y = rand() % 57;
-		//	if (canDistribute(x, y) && ice[x][y] == nullptr) {
-		//		for (int i = 0; i < 4; i++) {
-		//			for (int j = 0; j < 4; j++) {
-		//				if (ice[x + i][y + j] != nullptr) {
-		//					flag = false;
-		//					break;
-		//				}
-		//				else {
-		//					flag = true;
-		//				}
-		//			}
-		//		}
-		//	}
-		//	if (flag == true) {
-		//		Goodie* g = new Waterpool(x, y, this);
-		//		goodies.push_back(g);
-		//	}*/
-
-		//}
 	}
 	if (num_barrels <= 0) {
 		playSound(SOUND_FINISHED_LEVEL);
@@ -317,8 +289,7 @@ void StudentWorld::shoot(Iceman* p1) {
 				}
 			}
 			if (flag == true) {
-				g = new Squirt(p1->getX(), p1->getY() + 4, this, p1);
-				goodies.push_back(g);
+				goodies.push_back(new Squirt(p1->getX(), p1->getY() + 4, this, p1));
 			}
 		}
 		break;
@@ -334,8 +305,7 @@ void StudentWorld::shoot(Iceman* p1) {
 				}
 			}
 			if (flag == true) {
-				g = new Squirt(p1->getX(), p1->getY() - 4, this, p1);
-				goodies.push_back(g);
+				goodies.push_back(new Squirt(p1->getX(), p1->getY() - 4, this, p1));
 			}
 		}
 		break;
@@ -351,8 +321,7 @@ void StudentWorld::shoot(Iceman* p1) {
 				}
 			}
 			if (flag == true) {
-				g = new Squirt(p1->getX() - 4, p1->getY(), this, p1);
-				goodies.push_back(g);
+				goodies.push_back(new Squirt(p1->getX() - 4, p1->getY(), this, p1));
 			}
 		}
 		break;
@@ -368,8 +337,7 @@ void StudentWorld::shoot(Iceman* p1) {
 				}
 			}
 			if (flag == true) {
-				g = new Squirt(p1->getX() + 4, p1->getY(), this, p1);
-				goodies.push_back(g);
+				goodies.push_back(new Squirt(p1->getX() + 4, p1->getY(), this, p1));
 			}
 		}
 		break;
@@ -390,8 +358,7 @@ void StudentWorld::activateSonar(int x, int y) {
 }
 
 void StudentWorld::dropNugget(Iceman * p1) {
-	Goodie* g = new Temp_Nuggets(p1->getX(), p1->getY(), this);
-	goodies.push_back(g);
+	goodies.push_back(new Temp_Nuggets(p1->getX(), p1->getY(), this));
 	p1->dec_gold();
 }
 
@@ -413,7 +380,7 @@ bool StudentWorld::isBoulder(int x, int y, double radius) {
 
 bool StudentWorld::isSonar() {
 	for (size_t i = 0; i < goodies.size(); i++) {
-		if (goodies[i]->classType() == 5) {
+		if (goodies[i]->classType() == 5) { // item is a sonar
 			return true;
 		}
 	}
