@@ -200,7 +200,7 @@ int StudentWorld::distance(int x1, int x2, int y1, int y2) {
 	return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 }
 
-bool StudentWorld::withinDistance(int x, int y, double radius) {
+bool StudentWorld::withinDistanceofPlayer(int x, int y, double radius) {
 	if (distance(x, player->getX(), y, player->getY()) <= radius) {
 		return true;
 	}
@@ -218,8 +218,6 @@ bool StudentWorld::checkUP(int x, int y)
 			if (ice[i][y + 4] == nullptr)
 				flag = true;
 			else
-				return false;
-			if (isBoulder(x, y + 1, 3.0))
 				return false;
 		}
 		else {
@@ -240,9 +238,7 @@ bool StudentWorld::checkDOWN(int x, int y)
 				flag = true;
 			else
 				return false;
-
-			if (isBoulder(x, y - 1, 3.0))
-				return false;
+			
 		}
 		else {
 			return false;
@@ -261,14 +257,11 @@ bool StudentWorld::checkLEFT(int x, int y)
 			if (ice[x - 1][j] == nullptr)
 				flag = true;
 			else
-				flag = false;
-			if (isBoulder(x - 1, y, 3.0))
 				return false;
 		}
 		else {
-			flag = false;
+			return false;
 		}
-
 	}
 	return flag;
 }
@@ -283,15 +276,11 @@ bool StudentWorld::checkRIGHT(int x, int y)
 			if (ice[x + 4][j] == nullptr)
 				flag = true;
 			else
-				flag = false;
+				return false;
 		}
 		else {
-			flag = false;
-		}
-		if (isBoulder(x + 1, y, 3.0)) {
 			return false;
 		}
-			
 	}
 	return flag;
 }
@@ -305,7 +294,7 @@ void StudentWorld::shoot(Iceman* p1) {
 			bool flag = true;
 			for (int i = 0; i < 4; i++)
 			{
-				if (!checkUP(p1->getX(), p1->getY() + i)) {
+				if (!(checkUP(p1->getX(), p1->getY() + i)) && isBoulder(p1->getX(), p1->getY(), 3.0)) {
 					flag = false;
 					break;
 				}
@@ -322,7 +311,7 @@ void StudentWorld::shoot(Iceman* p1) {
 			bool flag = true;
 			for (int i = 0; i < 4; i++)
 			{
-				if (!checkDOWN(p1->getX(), p1->getY() - i)) {
+				if (!(checkDOWN(p1->getX(), p1->getY() - i)) && isBoulder(p1->getX(), p1->getY(), 3.0)) {
 					flag = false;
 					break;
 				}
@@ -339,7 +328,7 @@ void StudentWorld::shoot(Iceman* p1) {
 			bool flag = true;
 			for (int i = 0; i < 4; i++)
 			{
-				if (checkLEFT(p1->getX() - i, p1->getY()) != true) {
+				if (!(checkLEFT(p1->getX() - i, p1->getY())) && isBoulder(p1->getX(), p1->getY(), 3.0)) {
 					flag = false;
 					break;
 				}
@@ -356,7 +345,7 @@ void StudentWorld::shoot(Iceman* p1) {
 			bool flag = true;
 			for (int i = 0; i < 4; i++)
 			{
-				if (checkRIGHT(p1->getX() + i, p1->getY()) != true) {
+				if (!(checkRIGHT(p1->getX() + i, p1->getY())) && isBoulder(p1->getX(), p1->getY(), 3.0)) {
 					flag = false;
 					break;
 				}

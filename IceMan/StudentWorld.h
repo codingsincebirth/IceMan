@@ -26,7 +26,7 @@ public:
 	int max(int a, int b);
 	int min(int a, int b);
 	bool canDistribute(int x, int y);
-	bool withinDistance(int x, int y, double radius);
+	bool withinDistanceofPlayer(int x, int y, double radius);
 	bool checkUP(int x, int y);
 	bool checkDOWN(int x, int y);
 	bool checkLEFT(int x, int y);

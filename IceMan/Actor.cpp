@@ -220,9 +220,12 @@ void Boulder::doSomething() {
 			if (getWorld()->checkDOWN(getX(), getY()))
 			{
 				moveTo(getX(), getY() - 1);
-				if (getWorld()->withinDistance(getX(), getY(), 3.0)) {
+				if (getWorld()->withinDistanceofPlayer(getX(), getY(), 3.0)) { // if the boulder runs into the player
 					isDead();
 					getWorld()->getPlayer()->annoy(100);
+				}
+				if (getWorld()->isBoulder(getX(), getY() - 1, 3.0)) { // if the boulder runs into another boulder
+					isDead();
 				}
 			}
 			else {
@@ -250,11 +253,11 @@ void Barrel::doSomething() {
 	if (isAlive() == false) {
 		return;
 	} 
-	else if (isVisible() == false && getWorld()->withinDistance(getX(), getY(), 4.0)) {
+	else if (isVisible() == false && getWorld()->withinDistanceofPlayer(getX(), getY(), 4.0)) {
 		setVisible(true);
 		return;
 	} 
-	else if (getWorld()->withinDistance(getX(), getY(), 3.0)) {
+	else if (getWorld()->withinDistanceofPlayer(getX(), getY(), 3.0)) {
 		isDead();
 		getWorld()->playSound(SOUND_FOUND_OIL);
 		getWorld()->increaseScore(1000);
@@ -288,7 +291,7 @@ void Squirt::doSomething() {
 	{
 		switch (getDirection()) {
 		case up:
-			if (getWorld()->checkUP(getX(), getY())) {
+			if (getWorld()->checkUP(getX(), getY()) && !(getWorld()->isBoulder(getX(), getY(), 3.0))) {
 				moveTo(getX(), getY() + 1);
 			}
 			else {
@@ -296,7 +299,7 @@ void Squirt::doSomething() {
 			}
 			break;
 		case down:
-			if (getWorld()->checkDOWN(getX(), getY())) {
+			if (getWorld()->checkDOWN(getX(), getY()) && !(getWorld()->isBoulder(getX(), getY(), 3.0))) {
 				moveTo(getX(), getY() - 1);
 			}
 			else {
@@ -304,7 +307,7 @@ void Squirt::doSomething() {
 			}
 			break;
 		case left:
-			if (getWorld()->checkLEFT(getX(), getY())) {
+			if (getWorld()->checkLEFT(getX(), getY()) && !(getWorld()->isBoulder(getX(), getY(), 3.0))) {
 				moveTo(getX() - 1, getY());
 			}
 			else {
@@ -312,7 +315,7 @@ void Squirt::doSomething() {
 			}
 			break;
 		case right:
-			if (getWorld()->checkRIGHT(getX(), getY())) {
+			if (getWorld()->checkRIGHT(getX(), getY()) && !(getWorld()->isBoulder(getX(), getY(), 3.0))) {
 				moveTo(getX() + 1, getY());
 			}
 			else {
@@ -345,7 +348,7 @@ void Waterpool::doSomething() {
 	}
 	if (num_ticks > 0)
 	{
-		if (getWorld()->withinDistance(getX(), getY(), 3.0)) {
+		if (getWorld()->withinDistanceofPlayer(getX(), getY(), 3.0)) {
 			isDead();
 			getWorld()->playSound(SOUND_GOT_GOODIE);
 			getWorld()->getPlayer()->inc_water(); // increase water count
@@ -385,12 +388,12 @@ void Nuggets::doSomething() {
 	}
 	switch (getState()) {
 	case 0:
-		if (isVisible() == false && getWorld()->withinDistance(getX(), getY(), 4.0)) {
+		if (isVisible() == false && getWorld()->withinDistanceofPlayer(getX(), getY(), 4.0)) {
 			setVisible(true);
 			return;
 
 		}
-		else if (getWorld()->withinDistance(getX(), getY(), 3.0)) {
+		else if (getWorld()->withinDistanceofPlayer(getX(), getY(), 3.0)) {
 			isDead();
 			getWorld()->playSound(SOUND_GOT_GOODIE);
 			setState(1);
@@ -423,7 +426,7 @@ void Sonar::doSomething() {
 	}
 	else if(num_ticks > 0)
 	{
-		if (getWorld()->withinDistance(getX(), getY(), 3.0)) {
+		if (getWorld()->withinDistanceofPlayer(getX(), getY(), 3.0)) {
 			isDead();
 			getWorld()->playSound(SOUND_GOT_GOODIE);
 		}
