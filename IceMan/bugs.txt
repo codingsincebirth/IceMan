@@ -1,0 +1,28 @@
+bugs fixed
+dig towards ice, entire program
+    bounds not setup correctly
+    remove ice if y < 60 was wrong
+iceman went through boulder
+    iceman didnt check for boulder in do something
+boulder fell when only 1 ice was removed underneath
+    fixed with distance function
+boulder didnt fall all the way
+    probably fixed with distance function
+objects still overlapped
+    fixed with distance function
+rightmost column ice wouldnt be deleted
+    not sure how it was solved
+distance function entirely messed up overlapping and boulder fall check
+    parameters were swapped
+
+
+bugs to fix
+water pool spawns in ice
+    set water pool depth to go in front of ice
+    maybe its a object vs visual bug, or doesnt check for ice at all
+
+
+
+to do list
+score top of screen
+sonar detect objects
