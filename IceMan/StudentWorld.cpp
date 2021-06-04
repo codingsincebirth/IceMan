@@ -36,7 +36,7 @@ int StudentWorld::init() {
 		for (;;) {
 			x = rand() % 61; // 0 - 60
 			y = rand() % 37 + 20; // 20 - 56
-			if (x < 30 || x > 33 && canDistribute(x, y)) // Accounting for the tunnel from x = 30 to x = 33
+			if (x < 26 || x > 33 && canDistribute(x, y)) // Accounting for the tunnel from x = 26 to x = 33
 				break;
 		}
 		Goodie *g = new Boulder(x, y, this);
@@ -57,7 +57,7 @@ int StudentWorld::init() {
 			y = rand() % 57;
 			if (y == 0 && canDistribute(x, y))
 				break;
-			else if ((x < 30 || x > 33) && canDistribute(x, y))
+			else if ((x < 26 || x > 33) && canDistribute(x, y))
 				break;
 		}
 		goodies.push_back(new Barrel(x, y, this));
@@ -70,7 +70,7 @@ int StudentWorld::init() {
 			y = rand() % 57; // 0 - 56
 			if (y == 0 && canDistribute(x, y))
 				break;
-			else if ((x < 30 || x > 33) && canDistribute(x, y))
+			else if ((x < 26 || x > 33) && canDistribute(x, y))
 				break;
 		}
 		goodies.push_back(new Perm_Nuggets(x, y, this));
@@ -106,7 +106,7 @@ int StudentWorld::move() {
 		}
 	}
 	m_goodie = (getLevel() * 25) + 300;
-	if ((rand() % m_goodie) < 1){
+	if ((rand() % m_goodie) < 1){ // spawn sonar and water pools
 		int chance = rand() % 5; // 0 - 4
 		if (chance < 1 && isSonar() == false ) { 
 			goodies.push_back(new Sonar(0, 60, this));
