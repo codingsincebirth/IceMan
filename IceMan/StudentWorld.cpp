@@ -74,7 +74,7 @@ int StudentWorld::init() {
 			else if ((x < 26 || x > 33) && canDistribute(x, y))
 				break;
 		}
-		Goodie* g = new Nuggets(x, y, this);
+		Goodie* g = new Perm_Nuggets(x, y, this);
 		goodies.push_back(g);
 	}
 	// Check if any barrels left
@@ -370,6 +370,12 @@ void StudentWorld::activateSonar(int x, int y) {
 		}
 	}
 	playSound(SOUND_SONAR);
+}
+
+void StudentWorld::dropNugget(Iceman * p1) {
+	Goodie* g = new Temp_Nuggets(p1->getX(), p1->getY(), this);
+	goodies.push_back(g);
+	p1->dec_gold();
 }
 
 void StudentWorld::decBarrels() {

@@ -104,15 +104,19 @@ private:
 	int num_ticks;
 };
 
-class Nuggets : public Goodie {
+class Perm_Nuggets : public Goodie {
 public:
-	Nuggets(int x, int y, StudentWorld* w);
+	Perm_Nuggets(int x, int y, StudentWorld* w);
 	void doSomething();
-	virtual ~Nuggets();
-	int getState();
-	void setState(int st);
+	virtual ~Perm_Nuggets();
+};
+
+class Temp_Nuggets : public Goodie {
+public:
+	Temp_Nuggets(int x, int y, StudentWorld* w);
+	void doSomething();
+	virtual~Temp_Nuggets();
 private:
-	int state;
 	int num_ticks;
 };
 

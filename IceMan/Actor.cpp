@@ -131,8 +131,10 @@ void Iceman::doSomething() {
 				}
 				break;
 			case KEY_PRESS_TAB:
-				//gold nugget
-				num_goldNugs--;
+				if (num_goldNugs > 0) {
+					getWorld()->dropNugget(this);
+					num_goldNugs--;
+				}
 				break;
 			}
 		}
@@ -378,60 +380,60 @@ Waterpool::~Waterpool() {
 
 }
 
-/////////// GOLD NUGGETS IMPLEMENTATION /////////////
-Nuggets::Nuggets(int x, int y, StudentWorld *w)
+/////////// PERMANANT GOLD NUGGETS IMPLEMENTATION /////////////
+Perm_Nuggets::Perm_Nuggets(int x, int y, StudentWorld *w)
 	:Goodie(IID_GOLD, x, y, right, 1.0, 2, w) 
 {
-	state = 0;
-	num_ticks = getWorld()->max(100, 300 - (10 * getWorld()->getLevel()));
 	setVisible(false);
 }
 
-void Nuggets::setState(int st) {
-	state = st;
-	//0 = permanant;
-	//1 = temperoray;
-}
-
-int Nuggets::getState() {
-	return state;
-}
-
-void Nuggets::doSomething() {
+void Perm_Nuggets::doSomething() {
 	if (isAlive() != true) {
 		return;
 	}
-	switch (getState()) {
-	case 0:
-		if (isVisible() == false && getWorld()->withinDistanceofPlayer(getX(), getY(), 4.0)) {
-			setVisible(true);
-			return;
+	if (isVisible() == false && getWorld()->withinDistanceofPlayer(getX(), getY(), 4.0)) {
+		setVisible(true);
+		return;
 
-		}
-		else if (getWorld()->withinDistanceofPlayer(getX(), getY(), 3.0)) {
-			isDead();
-			getWorld()->playSound(SOUND_GOT_GOODIE);
-			getWorld()->increaseScore(25);
-			getWorld()->getPlayer()->inc_gold(); // increase gold nuggets by 1
-			setState(1);
-		}
-		break;
-	case 1:
-		if(num_ticks > 0){
-			//Implement with protestor
-		}
-		else if(num_ticks <= 0) {
-			isDead();
-		}
-		num_ticks--;
-		break;
+	}
+	else if (getWorld()->withinDistanceofPlayer(getX(), getY(), 3.0)) {
+		isDead();
+		getWorld()->playSound(SOUND_GOT_GOODIE);
+		getWorld()->increaseScore(25);
+		getWorld()->getPlayer()->inc_gold(); // increase gold nuggets by 1
+
 	}
 }
-Nuggets::~Nuggets() {
+Perm_Nuggets::~Perm_Nuggets() {
 
 }
 
+/////////// TEMPORARY GOLD NUGGETS IMPLEMENTATION /////////////
+
+Temp_Nuggets::Temp_Nuggets(int x, int y, StudentWorld* w)
+	: Goodie(IID_GOLD, x, y, right, 1.0, 2, w)
+{
+	num_ticks = getWorld()->max(100, 300 - (10 * getWorld()->getLevel()));
+	setVisible(true);
+}
+
+void Temp_Nuggets::doSomething() {
+	if (isAlive() != true) {
+		return;
+	}
+	if (num_ticks > 0) {
+		//if gold nugget is near protestor he picks it up
+	}
+	else {
+		isDead();
+		return;
+	}
+	num_ticks--;
+}
+Temp_Nuggets::~Temp_Nuggets(){}
+
 /////////// SONAR KITS IMPLEMENTATION /////////////
+
 Sonar::Sonar(int x, int y, StudentWorld* w)
 	:Goodie(IID_SONAR, x, y, right, 1.0, 2, w) {
 	num_ticks = getWorld()->max(100, 300 - (10 * getWorld()->getLevel()));
