@@ -4,26 +4,24 @@
 
 // Students:  Add code to this file (if you wish), Actor.h, StudentWorld.h, and StudentWorld.cpp
 
-BaseObject::BaseObject(int imageID, int startX, int startY, Direction startDirection, float size, unsigned int depth):
-	GraphObject(imageID, startX, startY, startDirection, size, depth) {
-	setVisible(true);
-	status = true;
-}
 
-bool BaseObject::isAlive() {
-	return status;
-}
-
-void BaseObject::isDead() {
-	status = false;
-}
 /////////// ACTOR IMPLEMENTATION /////////////
 
 Actor::Actor(int imageID, int startX, int startY, Direction startDirection, float size, unsigned int depth, StudentWorld* w, int hp)
-	: BaseObject(imageID, startX, startY, startDirection, size, depth)
+	: GraphObject(imageID, startX, startY, startDirection, size, depth)
 {
 	num_hp = hp;
 	world = w;
+	status = true;
+	setVisible(true);
+}
+
+bool Actor::isAlive() {
+	return status;
+}
+
+void Actor::isDead() {
+	status = false;
 }
 
 int Actor::getNum_hp() {
@@ -168,9 +166,11 @@ void Iceman::annoy(int dmg) {
 /////////// ICE IMPLEMENTATION /////////////
 
 Ice::Ice(int x, int y)
-	:BaseObject(IID_ICE, x, y, right, .25, 3) {
-
+	:GraphObject(IID_ICE, x, y, right, .25, 3) {
+	setVisible(true);
 }
+
+
 
 /////////// GOODIE IMPLEMENTATION /////////////
 Goodie::Goodie(int imageID, int startX, int startY, Direction startDirection, float size, unsigned int depth, StudentWorld* w) 

@@ -7,18 +7,11 @@
 #include <stack>
 
 // Students:  Add code to this file, Actor.cpp, StudentWorld.h, and StudentWorld.cpp
-class BaseObject : public GraphObject {
-public: 
-	BaseObject(int imageID, int startX, int startY, Direction startDirection, float size, unsigned int depth);
-	bool isAlive();
-	void isDead();
-private:
-	bool status;
-};
-
-class Actor : public BaseObject {
+class Actor : public GraphObject {
 public:
 	Actor(int imageID, int startX, int startY, Direction startDirection, float size, unsigned int depth, StudentWorld* w, int hp);
+	bool isAlive();
+	void isDead();
 	virtual void annoy(int dmg) = 0;
 	virtual void doSomething() = 0;
 	virtual ~Actor();
@@ -28,6 +21,7 @@ public:
 private:
 	StudentWorld* world;
 	int num_hp;
+	bool status;
 };
 
 class Goodie :public Actor {
@@ -63,9 +57,10 @@ private:
 
 };
 
-class Ice : public BaseObject {
+class Ice : public GraphObject {
 public:
 	Ice(int x, int y);
+
 };
 
 class Barrel : public Goodie {
