@@ -82,7 +82,7 @@ int StudentWorld::init() {
 }
 bool StudentWorld::canDistribute(int x, int y) {
 	for (int i = 0; i < goodies.size(); i++) {
-		if (distance(goodies[i]->getX() + 2, goodies[i]->getY() + 2, x + 2, y + 2) <= 6.0)
+		if (distance(goodies[i]->getX() + 2, x + 2, goodies[i]->getY() + 2, y + 2) <= 6.0)
 			return false;
 	}
 	return true;
@@ -194,20 +194,17 @@ Iceman* StudentWorld::getPlayer() {
 }
 
 void StudentWorld::removeIce(Iceman* p1) {
-	/*bool dig = false;*/
+	
 	for (int i = p1->getX(); i <= p1->getX() + 3; i++) {
 		for (int j = p1->getY(); j <= p1->getY() + 3; j++) {
 			if (ice[i][j] != nullptr && j < 60) {
 				delete ice[i][j];
 				ice[i][j] = nullptr;
-				/*dig = true;*/
-				playSound(SOUND_DIG);
+				/*playSound(SOUND_DIG);*/
 			}
 		}
 	}
-	/*if (dig == true) {
-		playSound(SOUND_DIG);
-	}*/
+
 }
 
 int StudentWorld::min(int a, int b) {
@@ -247,12 +244,12 @@ bool StudentWorld::checkUP(int x, int y)
 			if (ice[i][y + 4] == nullptr)
 				flag = true;
 			else
-				flag = false;
+				return false;
+			if (isBoulder(x, y + 1, 3.0))
+				return false;
 		}
-		if (isBoulder(x, y + 1, 3.0))
-			return false;
 		else {
-			flag = false;
+			return false;
 		}
 	}
 	return flag;
@@ -268,13 +265,13 @@ bool StudentWorld::checkDOWN(int x, int y)
 			if (ice[i][y - 1] == nullptr)
 				flag = true;
 			else
-				flag = false;
+				return false;
 
 			if (isBoulder(x, y - 1, 3.0))
 				return false;
 		}
 		else {
-			flag = false;
+			return false;
 		}
 	}
 	return flag;
@@ -405,10 +402,10 @@ void StudentWorld::decBarrels() {
 }
 
 bool StudentWorld::isBoulder(int x, int y, double radius) {
-	for (int i = 0; i < goodies.size(); i++) {
+	for (size_t i = 0; i < goodies.size(); i++) {
 		if (goodies[i]->classType() == 1)// item is a boulder 
 		{
-			if (distance(goodies[i]->getX(), goodies[i]->getY(), x, y) <= radius && distance(goodies[i]->getX(), goodies[i]->getY(), x, y) != 1) {
+			if (distance(goodies[i]->getX(), x, goodies[i]->getY(), y) <= radius && distance(goodies[i]->getX(), x, goodies[i]->getY(), y) != 1) {
 				return true;
 			}
 		}
@@ -417,7 +414,7 @@ bool StudentWorld::isBoulder(int x, int y, double radius) {
 }
 
 bool StudentWorld::isSonar() {
-	for (int i = 0; i < goodies.size(); i++) {
+	for (size_t i = 0; i < goodies.size(); i++) {
 		if (goodies[i]->classType() == 5) {
 			return true;
 		}

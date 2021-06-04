@@ -65,11 +65,11 @@ void Iceman::doSomething() {
 			case KEY_PRESS_LEFT:
 				if (getDirection() == left)
 				{
-					getWorld()->removeIce(this);
 					if (getX() == 0)
 						moveTo(getX(), getY());
-					else{
+					else if (getWorld()->isBoulder(getX() - 1, getY(), 3.0) == false) {
 						moveTo(getX() - 1, getY());
+						getWorld()->removeIce(this);
 					}
 				}
 				else
@@ -78,11 +78,11 @@ void Iceman::doSomething() {
 			case KEY_PRESS_RIGHT:
 				if (getDirection() == right)
 				{
-					getWorld()->removeIce(this);
 					if (getX() == 60)
 						moveTo(getX(), getY());
-					else{
+					else if (getWorld()->isBoulder(getX() + 1, getY(), 3.0) == false){
 						moveTo(getX() + 1, getY());
+						getWorld()->removeIce(this);
 					}
 				}
 				else
@@ -91,11 +91,11 @@ void Iceman::doSomething() {
 			case KEY_PRESS_UP:
 				if (getDirection() == up)
 				{
-					getWorld()->removeIce(this);
 					if (getY() == 60)
 						moveTo(getX(), getY());
-					else{	
+					else if(getWorld()->isBoulder(getX(), getY() + 1, 3.0) == false){	
 						moveTo(getX(), getY() + 1);
+						getWorld()->removeIce(this);
 					}
 				}
 				else
@@ -104,11 +104,12 @@ void Iceman::doSomething() {
 			case KEY_PRESS_DOWN:
 				if (getDirection() == down)
 				{
-					getWorld()->removeIce(this);
+					
 					if (getY() == 0)
 						moveTo(getX(), getY());
-					else{
+					else if(getWorld()->isBoulder(getX(), getY() -1, 3.0) == false){
 						moveTo(getX(), getY() - 1);
+						getWorld()->removeIce(this);
 					}
 				}
 				else
@@ -446,74 +447,3 @@ Sonar::~Sonar() {
 
 }
 
-//Protestor::Protestor(StudentWorld* w)
-//	:Actor(IID_PROTESTER, 60, 60, left, 1, 0, w, 5) {
-//	numSquaresToMoveInCurrentDirection = rand() % 53 + 8;
-//	maxMoves = 3 - (getWorld()->getLevel() / 4);
-//	ticksToWaitBetweenMoves = std::max(0, maxMoves);
-//
-//}
-//
-//void Protestor::doSomething() {
-//	if (isAlive() == false) {
-//		setVisible(false);
-//		return;
-//	}
-//	else {
-//		if (check_if_rest() != 0 ) {
-//			ticksToWaitBetweenMoves--;
-//			return;
-//		}
-//		else if(getNum_hp() <=0) {
-//			leaveIceField();
-//		}
-//		else if (distance(getX(), getY(), getWorld()->getPlayer()->getX(), getWorld()->getPlayer()->getY() <= 4)) {
-//
-//		}
-//
-//	}
-//
-//}
-//
-//int Protestor::check_if_rest() {
-//	if (ticksToWaitBetweenMoves != 0) {
-//		return 1;
-//	}
-//	else {
-//		return 0;
-//	}
-//}
-//
-//void Protestor::leaveIceField() {
-//	if (getX() == 60 && getY() == 60) {
-//		isDead();
-//		return;
-//	}
-//	else {
-//		Position* pos = leave.top();
-//		leave.pop();
-//		if (pos->x < getX()) {
-//			setDirection(left);
-//		}
-//		else if (pos->x > getX()) {
-//			setDirection(right);
-//		}
-//		else if (pos->y < getY()) {
-//			setDirection(down);
-//		}
-//		else if (pos->y > getY()) {
-//			setDirection(up);
-//		}
-//		moveTo(pos->x, pos->y);
-//		delete pos;
-//	}
-//
-//}
-//
-//void Protestor::shout() {
-//
-//}
-//
-//Protestor::~Protestor() {
-//
-//}

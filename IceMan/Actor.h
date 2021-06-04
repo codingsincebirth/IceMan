@@ -130,21 +130,6 @@ public:
 private:
 	int num_ticks;
 };
-//class Protestor : public Actor {
-//public:
-//	Protestor(StudentWorld* w);
-//	void doSomething();
-//	~Protestor();
-//	int check_if_rest();
-//	void leaveIceField();
-//	void shout();
-//protected:
-//	int numSquaresToMoveInCurrentDirection;
-//	int maxMoves;
-//	int ticksToWaitBetweenMoves;
-//	bool leavetheicefield = false;
-//private:
-//	std::stack<Position*>leave;
-//};
+
 
 #endif // ACTOR_H_
