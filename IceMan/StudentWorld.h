@@ -38,6 +38,8 @@ public:
 	void activateSonar(int x, int y);
 	void dropNugget(Iceman* p1);
 	bool checkForIce(int x, int y);
+	int getBarrelsLeft();
+	std::string overHeadText();
 private:
 	std::vector<Goodie*>goodies;
 	Iceman* player;

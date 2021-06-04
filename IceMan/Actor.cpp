@@ -87,8 +87,7 @@ void Iceman::doSomething() {
 					setDirection(right);
 				break;
 			case KEY_PRESS_UP:
-				if (getDirection() == up)
-				{
+				if (getDirection() == up) {
 					if (getY() == 60)
 						moveTo(getX(), getY());
 					else if(getWorld()->isBoulder(getX(), getY() + 1, 3.0) == false){	
@@ -100,8 +99,7 @@ void Iceman::doSomething() {
 					setDirection(up);
 				break;
 			case KEY_PRESS_DOWN:
-				if (getDirection() == down)
-				{
+				if (getDirection() == down) {
 					
 					if (getY() == 0)
 						moveTo(getX(), getY());
@@ -117,8 +115,7 @@ void Iceman::doSomething() {
 				isDead();
 				break;
 			case KEY_PRESS_SPACE:
-				if (num_water>0)
-				{
+				if (num_water>0) {
 					getWorld()->shoot(this);
 					num_water--;
 				}
@@ -163,6 +160,18 @@ void Iceman::annoy(int dmg) {
 		getWorld()->playSound(SOUND_PLAYER_GIVE_UP);
 		getWorld()->getPlayer()->isDead();
 	}
+}
+
+int Iceman::getWater() {
+	return num_water;
+}
+
+int Iceman::getSonar() {
+	return num_sonarCharge;
+}
+
+int Iceman::getGoldNugs() {
+	return num_goldNugs;
 }
 
 /////////// ICE IMPLEMENTATION /////////////
@@ -354,8 +363,7 @@ Squirt::~Squirt(){}
 /////////// WATER POOL IMPLEMENTATION /////////////
 
 Waterpool::Waterpool(int x, int y, StudentWorld* w)
-	:Goodie(IID_WATER_POOL, x, y, right, 1.0, 2, w)
-{
+	: Goodie(IID_WATER_POOL, x, y, right, 1.0, 2, w) {
 	num_ticks = getWorld()->max(100, 300 - (10 * getWorld()->getLevel()));
 }
 
@@ -363,22 +371,18 @@ void Waterpool::doSomething() {
 	if (isAlive() != true) {
 		return;
 	}
-	if (num_ticks > 0)
-	{
+	if (num_ticks > 0) {
 		if (getWorld()->withinDistanceofPlayer(getX(), getY(), 3.0)) {
 			isDead();
 			getWorld()->playSound(SOUND_GOT_GOODIE);
 			getWorld()->getPlayer()->inc_water(); // increase water count by 5
 		}
-	}
-	else {
+	} else {
 		isDead();
 	}
 	num_ticks--;
 }
-Waterpool::~Waterpool() {
-
-}
+Waterpool::~Waterpool() {}
 
 /////////// PERMANANT GOLD NUGGETS IMPLEMENTATION /////////////
 

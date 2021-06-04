@@ -87,6 +87,7 @@ bool StudentWorld::canDistribute(int x, int y) {
 }
 
 int StudentWorld::move() {
+	setGameStatText(overHeadText());
 	player->doSomething();
 	if (player->isAlive() != true) {
 		decLives();
@@ -100,8 +101,7 @@ int StudentWorld::move() {
 			delete goodies[i];
 			goodies[i] = nullptr;
 			goodies.erase(goodies.begin() + i);
-		}
-		else {
+		} else {
 			i++;
 		}
 	}
@@ -110,12 +110,10 @@ int StudentWorld::move() {
 		int chance = rand() % 5; // 0 - 4
 		if (chance < 1 && isSonar() == false ) { 
 			goodies.push_back(new Sonar(0, 60, this));
-		}
-		else if (chance > 1) {
+		} else if (chance > 1) {
 			int x = 0;
 			int y = 0;
-			while (checkForIce(x,y) == false)
-			{
+			while (checkForIce(x,y) == false) {
 				x = rand() % 61;
 				y = rand() % 61;
 			}
@@ -127,9 +125,7 @@ int StudentWorld::move() {
 	if (num_barrels <= 0) {
 		playSound(SOUND_FINISHED_LEVEL);
 		return GWSTATUS_FINISHED_LEVEL;
-	}
-
-	else if (player->isAlive() == true) {
+	} else if (player->isAlive() == true) {
 		return GWSTATUS_CONTINUE_GAME;
 	}
 	return GWSTATUS_CONTINUE_GAME;
@@ -406,4 +402,39 @@ bool StudentWorld::checkForIce(int x, int y) {
 	}
 	return false;
 	
+}
+
+int StudentWorld::getBarrelsLeft() {
+	return num_barrels;
+}
+
+// Lvl: 52 Lives: 3 Hlth: 80% Wtr: 20 
+// Gld: 3 Oil Left: 2 Sonar: 1 Scr: 321000
+
+std::string StudentWorld::overHeadText() {
+	std::string level  = to_string(				getLevel());
+	std::string lives  = to_string(				getLives());
+	std::string health = to_string(getPlayer()->getNum_hp()*10);
+	std::string water  = to_string(getPlayer()->getWater());
+	std::string gold   = to_string(getPlayer()->getGoldNugs());
+	std::string oil    = to_string(				getBarrelsLeft());
+	std::string sonar  = to_string(				getPlayer()->getSonar());
+	std::string score  = to_string(				getScore());
+	level	.resize(2);
+	lives	.resize(1);
+	health	.resize(3);
+	water	.resize(2);
+	gold	.resize(2);
+	oil		.resize(2);
+	sonar	.resize(2);
+	score	.resize(2);
+
+	return ("Lvl: " + level + 
+			"  Lives: " + lives +
+			"  Hlth: " + health +
+			"%  Wtr: " + water +
+			"  Gld: " + gold +
+			"  Oil Left: " + oil +
+			"  Sonar: " + sonar +
+			"  Scr: " + score);
 }
