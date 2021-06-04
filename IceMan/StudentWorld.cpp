@@ -6,8 +6,7 @@
 using namespace std;
 
 
-GameWorld* createStudentWorld(string assetDir)
-{
+GameWorld* createStudentWorld(string assetDir) {
 	return new StudentWorld(assetDir);
 }
 
@@ -15,9 +14,9 @@ int StudentWorld::init() {
 	player = new Iceman(this); // Create new iceman
 	for (int i = 0; i < VIEW_WIDTH; i++) {
 		for (int j = 0; j < 60; j++) {
-			if (i >= 30 && i <= 33 && j >= 4)// Creating the tunnel
+			if (i >= 30 && i <= 33 && j >= 4) {// Creating the tunnel
 				ice[i][j] = nullptr;
-			else {
+			} else {
 				ice[i][j] = new Ice(i, j);
 			}
 
@@ -29,15 +28,17 @@ int StudentWorld::init() {
 
 		}
 	}
+	// coords
+	int x, y;
 	// Boulders
 	num_boulders = min((getLevel() / 2) + 2, 9);
 	for (int i = 0; i < num_boulders; i++) {
-		int x, y;
 		for (;;) {
 			x = rand() % 61; // 0 - 60
 			y = rand() % 37 + 20; // 20 - 56
-			if (x < 30 || x > 33 && canDistribute(x, y)) // Accounting for the tunnel from x = 30 to x = 33
+			if (x < 30 || x > 33 && canDistribute(x, y)) { // Accounting for the tunnel from x = 30 to x = 33
 				break;
+			}
 		}
 		Goodie *g = new Boulder(x, y, this);
 		for (int j = 0; j < 4; j++) {
@@ -51,27 +52,27 @@ int StudentWorld::init() {
 	// Barrels
 	num_barrels = min(2 + getLevel(), 21);
 	for (int i = 0; i < num_barrels; i++) {
-		int x, y;
 		for (;;) {
 			x = rand() % 61;
 			y = rand() % 57;
-			if (y == 0 && canDistribute(x, y))
+			if (y == 0 && canDistribute(x, y)) {
 				break;
-			else if ((x < 30 || x > 33) && canDistribute(x, y))
+			} else if ((x < 30 || x > 33) && canDistribute(x, y)) {
 				break;
+			}
 		}
 		goodies.push_back(new Barrel(x, y, this));
 	}
 	num_nuggets = max(5 - (getLevel() / 2), 2);
 	for (int i = 0; i < num_nuggets; i++) {
-		int x, y;
 		for (;;) {
 			x = rand() % 61; // 0 - 60
 			y = rand() % 57; // 0 - 56
-			if (y == 0 && canDistribute(x, y))
+			if (y == 0 && canDistribute(x, y)) {
 				break;
-			else if ((x < 30 || x > 33) && canDistribute(x, y))
+			} else if ((x < 30 || x > 33) && canDistribute(x, y)) {
 				break;
+			}
 		}
 		goodies.push_back(new Perm_Nuggets(x, y, this));
 	}
@@ -110,9 +111,10 @@ int StudentWorld::move() {
 		int chance = rand() % 5; // 0 - 4
 		if (chance < 1 && isSonar() == false ) { 
 			goodies.push_back(new Sonar(0, 60, this));
-		} else if (chance > 1) {
-			int x = 0;
-			int y = 0;
+		}
+		else if (chance > 1) {
+			int x = rand() % 61;
+			int	y = rand() % 61;
 			while (checkForIce(x,y) == false) {
 				x = rand() % 61;
 				y = rand() % 61;
@@ -174,9 +176,9 @@ int StudentWorld::min(int a, int b) {
 	}
 }
 int StudentWorld::max(int a, int b) {
-	if (a > b)
+	if (a > b) {
 		return a;
-	else {
+	} else {
 		return b;
 	}
 }
@@ -188,8 +190,7 @@ double StudentWorld::distance(int x1, int x2, int y1, int y2) {
 bool StudentWorld::withinDistanceofPlayer(int x, int y, double radius) {
 	if (distance(x, player->getX(), y, player->getY()) <= radius) {
 		return true;
-	}
-	else {
+	} else {
 		return false;
 	}
 }
@@ -200,70 +201,60 @@ bool StudentWorld::checkUP(int x, int y)
 	for (int i = x; i < x + 4; i++)
 	{
 		if (y < 60) {
-			if (ice[i][y + 4] == nullptr)
+			if (ice[i][y + 4] == nullptr) {
 				flag = true;
-			else
+			} else {
 				return false;
-		}
-		else {
+			}
+		} else {
 			return false;
 		}
 	}
 	return flag;
 }
 
-bool StudentWorld::checkDOWN(int x, int y)
-{
+bool StudentWorld::checkDOWN(int x, int y) {
 	bool flag = false;
-	for (int i = x; i < x + 4; i++)
-	{
-		if (y > 0)
-		{
-			if (ice[i][y - 1] == nullptr)
+	for (int i = x; i < x + 4; i++) {
+		if (y > 0) {
+			if (ice[i][y - 1] == nullptr) {
 				flag = true;
-			else
+			} else {
 				return false;
-			
-		}
-		else {
+			}
+		} else {
 			return false;
 		}
 	}
 	return flag;
 }
 
-bool StudentWorld::checkLEFT(int x, int y)
-{
+bool StudentWorld::checkLEFT(int x, int y) {
 	bool flag = true;
-	for (int j = y; j < y + 4; j++)
-	{
-		if (x > 0)
-		{
-			if (ice[x - 1][j] == nullptr)
+	for (int j = y; j < y + 4; j++) {
+		if (x > 0) {
+			if (ice[x - 1][j] == nullptr) {
 				flag = true;
-			else
+				} else {
 				return false;
-		}
-		else {
+				}
+		} else {
 			return false;
 		}
 	}
 	return flag;
 }
 
-bool StudentWorld::checkRIGHT(int x, int y)
-{
+bool StudentWorld::checkRIGHT(int x, int y) {
 	bool flag = false;
-	for (int j = y; j < y + 4; j++)
-	{
-		if (x < 60)
-		{
-			if (ice[x + 4][j] == nullptr)
+	for (int j = y; j < y + 4; j++) {
+		if (x < 60)	{
+			if (ice[x + 4][j] == nullptr) {
 				flag = true;
-			else
+			} else {
 				return false;
-		}
-		else {
+			}
+		} else {
 			return false;
 		}
 	}
@@ -274,11 +265,9 @@ void StudentWorld::shoot(Iceman* p1) {
 	Goodie* g;
 	switch (p1->getDirection()) {
 	case up:
-		if (p1->getY() <= 60)
-		{
+		if (p1->getY() <= 60) {
 			bool flag = true;
-			for (int i = 0; i < 4; i++)
-			{
+			for (int i = 0; i < 4; i++) {
 				if (!(checkUP(p1->getX(), p1->getY() + i)) && isBoulder(p1->getX(), p1->getY(), 3.0)) {
 					flag = false;
 					break;
@@ -290,11 +279,9 @@ void StudentWorld::shoot(Iceman* p1) {
 		}
 		break;
 	case down:
-		if (p1->getY() >= 4)
-		{
+		if (p1->getY() >= 4) {
 			bool flag = true;
-			for (int i = 0; i < 4; i++)
-			{
+			for (int i = 0; i < 4; i++) {
 				if (!(checkDOWN(p1->getX(), p1->getY() - i)) && isBoulder(p1->getX(), p1->getY(), 3.0)) {
 					flag = false;
 					break;
@@ -306,11 +293,9 @@ void StudentWorld::shoot(Iceman* p1) {
 		}
 		break;
 	case left:
-		if (p1->getX() >= 4)
-		{
+		if (p1->getX() >= 4) {
 			bool flag = true;
-			for (int i = 0; i < 4; i++)
-			{
+			for (int i = 0; i < 4; i++) {
 				if (!(checkLEFT(p1->getX() - i, p1->getY())) && isBoulder(p1->getX(), p1->getY(), 3.0)) {
 					flag = false;
 					break;
@@ -322,11 +307,9 @@ void StudentWorld::shoot(Iceman* p1) {
 		}
 		break;
 	case right:
-		if (p1->getX() < 57)
-		{
+		if (p1->getX() < 57) {
 			bool flag = true;
-			for (int i = 0; i < 4; i++)
-			{
+			for (int i = 0; i < 4; i++) {
 				if (!(checkRIGHT(p1->getX() + i, p1->getY())) && isBoulder(p1->getX(), p1->getY(), 3.0)) {
 					flag = false;
 					break;
@@ -364,8 +347,7 @@ void StudentWorld::decBarrels() {
 
 bool StudentWorld::isBoulder(int x, int y, double radius) {
 	for (size_t i = 0; i < goodies.size(); i++) {
-		if (goodies[i]->classType() == 1)// item is a boulder 
-		{
+		if (goodies[i]->classType() == 1) {
 			if (distance(goodies[i]->getX(), x, goodies[i]->getY(), y) <= radius && distance(goodies[i]->getX(), x, goodies[i]->getY(), y) != 1) {
 				return true;
 			}
@@ -376,7 +358,7 @@ bool StudentWorld::isBoulder(int x, int y, double radius) {
 
 bool StudentWorld::isSonar() {
 	for (size_t i = 0; i < goodies.size(); i++) {
-		if (goodies[i]->classType() == 5) { // item is a sonar
+		if (goodies[i]->classType() == 5) {
 			return true;
 		}
 	}
@@ -420,21 +402,13 @@ std::string StudentWorld::overHeadText() {
 	std::string oil    = to_string(				getBarrelsLeft());
 	std::string sonar  = to_string(				getPlayer()->getSonar());
 	std::string score  = to_string(				getScore());
-	level	.resize(2);
-	lives	.resize(1);
-	health	.resize(3);
-	water	.resize(2);
-	gold	.resize(2);
-	oil		.resize(2);
-	sonar	.resize(2);
-	score	.resize(2);
 
 	return ("Lvl: " + level + 
-			"  Lives: " + lives +
-			"  Hlth: " + health +
-			"%  Wtr: " + water +
-			"  Gld: " + gold +
-			"  Oil Left: " + oil +
-			"  Sonar: " + sonar +
+			"  Lives: " + lives + 
+			"  Hlth: " + health + 
+			"%  Wtr: " + water + 
+			"  Gld: " + gold + 
+			"  Oil Left: " + oil + 
+			"  Sonar: " + sonar + 
 			"  Scr: " + score);
 }

@@ -447,9 +447,7 @@ Sonar::Sonar(int x, int y, StudentWorld* w)
 void Sonar::doSomething() {
 	if (isAlive() != true) {
 		return;
-	}
-	else if(num_ticks > 0)
-	{
+	} else if(num_ticks > 0) {
 		if (getWorld()->withinDistanceofPlayer(getX(), getY(), 3.0)) {
 			isDead();
 			getWorld()->playSound(SOUND_GOT_GOODIE);
