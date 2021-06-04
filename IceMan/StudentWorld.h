@@ -37,6 +37,7 @@ public:
 	bool isBoulder(int x, int y, double radius);
 	void activateSonar(int x, int y);
 	void dropNugget(Iceman* p1);
+	bool checkForIce(int x, int y);
 private:
 	std::vector<Goodie*>goodies;
 	Iceman* player;

@@ -36,7 +36,7 @@ int StudentWorld::init() {
 		for (;;) {
 			x = rand() % 61; // 0 - 60
 			y = rand() % 37 + 20; // 20 - 56
-			if (x < 26 || x > 33 && canDistribute(x, y))
+			if (x < 30 || x > 33 && canDistribute(x, y))
 				break;
 		}
 		Goodie *g = new Boulder(x, y, this);
@@ -57,7 +57,7 @@ int StudentWorld::init() {
 			y = rand() % 57;
 			if (y == 0 && canDistribute(x, y))
 				break;
-			else if ((x < 26 || x > 33) && canDistribute(x, y))
+			else if ((x < 30 || x > 33) && canDistribute(x, y))
 				break;
 		}
 		Goodie* g = new Barrel(x, y, this);
@@ -71,7 +71,7 @@ int StudentWorld::init() {
 			y = rand() % 57; // 0 - 56
 			if (y == 0 && canDistribute(x, y))
 				break;
-			else if ((x < 26 || x > 33) && canDistribute(x, y))
+			else if ((x < 30 || x > 33) && canDistribute(x, y))
 				break;
 		}
 		Goodie* g = new Perm_Nuggets(x, y, this);
@@ -111,29 +111,46 @@ int StudentWorld::move() {
 	m_goodie = (getLevel() * 25) + 300;
 	if ((rand() % m_goodie) < 1){
 		int chance = rand() % 5; // 0 - 4
-		if (chance < 1 && isSonar() == false ) {
-			Goodie* g = new Sonar(0, 60, this);
-			goodies.push_back(g);
+		if (chance < 1 && isSonar() == false ) { 
+			goodies.push_back(new Sonar(0, 60, this));
 		}
-		else{
-			int x, y;
-			int num_pools = 0;
-			if (num_pools != 16) {
+		else if (chance > 1) {
+			int x = 0;
+			int y = 0;
+			while (checkForIce(x,y) == false)
+			{
 				x = rand() % 61;
-				y = rand() % 57;
-				if (canDistribute(x, y) && ice[x][y] == nullptr) {
-					for (int i = 0; i < 4; i++) {
-						for (int j = 0; j < 4; j++) {
-							if (ice[x + i][y + j] == nullptr) {
-								num_pools++;
-							}
-						}
-					}
-				}
+				y = rand() % 61;
 			}
-			Goodie* g = new Waterpool(x, y, this);
-			goodies.push_back(g);
+			if (canDistribute(x, y)) {
+				goodies.push_back(new Waterpool(x, y, this));
+			}
 		}
+		//else{
+
+		//	/*int x, y;
+		//	bool flag = false;
+		//	x = rand() % 61;
+		//	y = rand() % 57;
+		//	if (canDistribute(x, y) && ice[x][y] == nullptr) {
+		//		for (int i = 0; i < 4; i++) {
+		//			for (int j = 0; j < 4; j++) {
+		//				if (ice[x + i][y + j] != nullptr) {
+		//					flag = false;
+		//					break;
+		//				}
+		//				else {
+		//					flag = true;
+		//				}
+		//			}
+		//		}
+		//	}
+		//	if (flag == true) {
+		//		Goodie* g = new Waterpool(x, y, this);
+		//		goodies.push_back(g);
+		//	}*/
+
+		//}
 	}
 	if (num_barrels <= 0) {
 		playSound(SOUND_FINISHED_LEVEL);
@@ -401,4 +418,25 @@ bool StudentWorld::isSonar() {
 		}
 	}
 	return false;
+}
+
+bool StudentWorld::checkForIce(int x, int y) {
+	if (ice[x][y] == nullptr) {
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; i < 4; j++) {
+				if (ice[x + i][y + j] != nullptr) {
+					return false;
+				}
+				else {
+					return true;
+				}
+
+			}
+		}
+	}
+	else {
+		return false;
+	}
+	return false;
+	
 }
