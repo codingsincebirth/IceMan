@@ -15,18 +15,16 @@ int StudentWorld::init() {
 	player = new Iceman(this); // Create new iceman
 	for (int i = 0; i < VIEW_WIDTH; i++) {
 		for (int j = 0; j < 60; j++) {
-			if (i >= 30 && i <= 33 && j >= 4) {// Creating the tunnel
+			if (i >= 30 && i <= 33 && j >= 4) { // Creating the tunnel
 				ice[i][j] = nullptr;
 			} else {
 				ice[i][j] = new Ice(i, j);
 			}
-
 		}
 	}
 	for (int i = 0; i < 64; i++) { // Creating the surface
 		for (int j = 60; j < 64; j++) {
 			ice[i][j] = nullptr;
-
 		}
 	}
 	// coords
@@ -37,7 +35,7 @@ int StudentWorld::init() {
 		for (;;) {
 			x = rand() % 61; // 0 - 60
 			y = rand() % 37 + 20; // 20 - 56
-			if (x < 26 || x > 33 && canDistribute(x, y)){ // Accounting for the tunnel from x = 26 to x = 33
+			if (x < 27 || x > 33 && canDistribute(x, y)) { // Accounting for the tunnel from x = 30 to x = 33
 				break;
 			}
 		}
@@ -113,13 +111,12 @@ int StudentWorld::move() {
 	m_goodie = (getLevel() * 25) + 300;
 	if ((rand() % m_goodie) < 1){ // spawn sonar and water pools
 		int chance = rand() % 5; // 0 - 4
-		if (chance < 1 && isSonar() == false ) { 
+		if (chance < 1 && !sonarExists()) { 
 			goodies.push_back(new Sonar(0, 60, this));
-		}
-		else if (chance > 1) {
+		} else if (chance > 1) {
 			int x = rand() % 61;
 			int	y = rand() % 61;
-			while (checkForIce(x,y) == false) {
+			while (!checkForIce(x,y)) {
 				x = rand() % 61;
 				y = rand() % 61;
 			}
@@ -131,8 +128,7 @@ int StudentWorld::move() {
 	if (num_barrels <= 0) {
 		playSound(SOUND_FINISHED_LEVEL);
 		return GWSTATUS_FINISHED_LEVEL;
-	} 
-	else if (player->isAlive() == true) {
+	} else if (player->isAlive()) {
 		return GWSTATUS_CONTINUE_GAME;
 	}
 	return GWSTATUS_CONTINUE_GAME;
@@ -201,11 +197,9 @@ bool StudentWorld::withinDistanceofPlayer(int x, int y, double radius) {
 	}
 }
 
-bool StudentWorld::checkUP(int x, int y)
-{
+bool StudentWorld::checkUP(int x, int y) {
 	bool flag = false;
-	for (int i = x; i < x + 4; i++)
-	{
+	for (int i = x; i < x + 4; i++) {
 		if (y < 60) {
 			if (ice[i][y + 4] == nullptr)
 				flag = true;
@@ -337,8 +331,7 @@ void StudentWorld::shoot(Iceman* p1) {
 
 void StudentWorld::activateSonar(int x, int y) {
 	for (size_t i = 0; i < goodies.size(); i++) {
-		if (!goodies[i]->isVisible())
-		{
+		if (!goodies[i]->isVisible()) {
 			if (distance(goodies[i]->getX(), x, goodies[i]->getY(), y) <= 12.0) {
 				goodies[i]->setVisible(true);
 			}
@@ -367,10 +360,12 @@ bool StudentWorld::isBoulder(int x, int y, double radius) {
 	return false;
 }
 
-bool StudentWorld::isSonar() {
+bool StudentWorld::sonarExists() {
 	for (size_t i = 0; i < goodies.size(); i++) {
 		if (goodies[i]->classType() == 5) {
 			return true;
+		} else {
+			return false;
 		}
 	}
 	return false;
@@ -382,15 +377,12 @@ bool StudentWorld::checkForIce(int x, int y) {
 			for (int j = 0; i < 4; j++) {
 				if (ice[x + i][y + j] != nullptr) {
 					return false;
-				}
-				else {
+				} else {
 					return true;
 				}
-
 			}
 		}
-	}
-	else {
+	} else {
 		return false;
 	}
 	return false;
@@ -405,7 +397,7 @@ int StudentWorld::getBarrelsLeft() {
 // Gld: 3 Oil Left: 2 Sonar: 1 Scr: 321000
 
 std::string StudentWorld::overHeadText() {
-	std::string level  = to_string(				getLevel());
+	std::string level  = to_string(				getLevel() + 1);
 	std::string lives  = to_string(				getLives());
 	std::string health = to_string(getPlayer()->getNum_hp()*10);
 	std::string water  = to_string(getPlayer()->getWater());
