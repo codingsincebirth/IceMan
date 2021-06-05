@@ -395,7 +395,15 @@ std::string StudentWorld::overHeadText() {
 	std::string oil    = to_string(				getBarrelsLeft());
 	std::string sonar  = to_string(				getPlayer()->getSonar());
 	std::string score  = to_string(				getScore());
-
+	while (water.size() < 2) {
+		water = " " + water;
+	}
+	while (health.size() < 2) {
+		health = " " + health;
+	}
+	while (score.size() < 6) {
+		score = "0" + score;
+	}
 	return ("Lvl: " + level + 
 			"  Lives: " + lives + 
 			"  Hlth: " + health + 
