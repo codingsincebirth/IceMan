@@ -48,7 +48,6 @@ private:
 	int num_barrels;
 	int m_goodie;
 	int num_nuggets;
-	int num_waterpools;
 };
 
 #endif // STUDENTWORLD_H_

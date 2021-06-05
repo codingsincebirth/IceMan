@@ -426,7 +426,7 @@ void Temp_Nuggets::doSomething() {
 		return;
 	}
 	if (num_ticks > 0) {
-		//if gold nugget is near protestor he picks it up
+		// if gold nugget is near protestor he picks it up
 	}
 	else {
 		isDead();
