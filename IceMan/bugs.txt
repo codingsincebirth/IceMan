@@ -17,6 +17,13 @@ distance function entirely messed up overlapping and boulder fall check
 status line was not showing up
     setGameStatText was placed at end of move(), so it never got called because move() returned a game state before ever calling setGameStatText
     fixed by placing setGameStatText at beginning
+sonar wouldnt pick up
+    when the sonar time to live runs out, we forgot to call isDead() to remove it
+    sonar would properly be removed when player picks it up, but not when naturally despawns
+    putting isDead why ticks run out fixed it
+gold decrementing by 2
+    when dropping gold, it would go down by two
+    turns out we did num_gold-- as well as calling dec_gold() which also num_gold--
 
 bugs to fix
 water pool spawns in ice
@@ -24,7 +31,3 @@ water pool spawns in ice
     maybe its a object vs visual bug, or doesnt check for ice at all
 
 
-
-to do list
-score top of screen
-sonar detect objects
