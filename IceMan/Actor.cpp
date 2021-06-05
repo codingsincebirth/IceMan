@@ -454,6 +454,9 @@ void Sonar::doSomething() {
 			getWorld()->increaseScore(75);
 			getWorld()->getPlayer()->inc_sonar();
 		}
+		else {
+			isDead();
+		}
 	}
 	num_ticks--;
 }
