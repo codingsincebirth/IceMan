@@ -130,7 +130,6 @@ void Iceman::doSomething() {
 			case KEY_PRESS_TAB:
 				if (num_goldNugs > 0) {
 					getWorld()->dropNugget(this);
-					num_goldNugs--;
 				}
 				break;
 			}
