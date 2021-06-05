@@ -1,3 +1,4 @@
+
 #include "StudentWorld.h"
 #include "Actor.h"
 #include "GameConstants.h"
@@ -55,7 +56,8 @@ int StudentWorld::init() {
 			y = rand() % 57;
 			if (y == 0 && canDistribute(x, y)) {
 				break;
-			} else if ((x < 30 || x > 33) && canDistribute(x, y)) {
+			}
+			else if ((x < 26 || x > 33) && canDistribute(x, y)){
 				break;
 			}
 		}
@@ -68,7 +70,8 @@ int StudentWorld::init() {
 			y = rand() % 57; // 0 - 56
 			if (y == 0 && canDistribute(x, y)) {
 				break;
-			} else if ((x < 30 || x > 33) && canDistribute(x, y)) {
+			}
+			else if ((x < 26 || x > 33) && canDistribute(x, y)){
 				break;
 			}
 		}
@@ -100,12 +103,13 @@ int StudentWorld::move() {
 			delete goodies[i];
 			goodies[i] = nullptr;
 			goodies.erase(goodies.begin() + i);
-		} else {
+		} 
+		else {
 			i++;
 		}
 	}
 	m_goodie = (getLevel() * 25) + 300;
-	if ((rand() % m_goodie) < 1) {
+	if ((rand() % m_goodie) < 1){ // spawn sonar and water pools
 		int chance = rand() % 5; // 0 - 4
 		if (chance < 1 && !sonarExists()) { 
 			goodies.push_back(new Sonar(0, 60, this));
@@ -173,9 +177,9 @@ int StudentWorld::min(int a, int b) {
 	}
 }
 int StudentWorld::max(int a, int b) {
-	if (a > b) {
+	if (a > b)
 		return a;
-	} else {
+	else {
 		return b;
 	}
 }
@@ -187,7 +191,8 @@ double StudentWorld::distance(int x1, int x2, int y1, int y2) {
 bool StudentWorld::withinDistanceofPlayer(int x, int y, double radius) {
 	if (distance(x, player->getX(), y, player->getY()) <= radius) {
 		return true;
-	} else {
+	}
+	else {
 		return false;
 	}
 }
@@ -196,28 +201,31 @@ bool StudentWorld::checkUP(int x, int y) {
 	bool flag = false;
 	for (int i = x; i < x + 4; i++) {
 		if (y < 60) {
-			if (ice[i][y + 4] == nullptr) {
+			if (ice[i][y + 4] == nullptr)
 				flag = true;
-			} else {
+			else
 				return false;
-			}
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
 	return flag;
 }
 
-bool StudentWorld::checkDOWN(int x, int y) {
+bool StudentWorld::checkDOWN(int x, int y)
+{
 	bool flag = false;
-	for (int i = x; i < x + 4; i++) {
-		if (y > 0) {
-			if (ice[i][y - 1] == nullptr) {
+	for (int i = x; i < x + 4; i++)
+	{
+		if (y > 0)
+		{
+			if (ice[i][y - 1] == nullptr)
 				flag = true;
-			} else {
+			else 
 				return false;
-			}
-		} else {
+		} 
+		else {
 			return false;
 		}
 	}
@@ -226,14 +234,16 @@ bool StudentWorld::checkDOWN(int x, int y) {
 
 bool StudentWorld::checkLEFT(int x, int y) {
 	bool flag = true;
-	for (int j = y; j < y + 4; j++) {
-		if (x > 0) {
-			if (ice[x - 1][j] == nullptr) {
+	for (int j = y; j < y + 4; j++)
+	{
+		if (x > 0)
+		{
+			if (ice[x - 1][j] == nullptr)
 				flag = true;
-				} else {
+			else
 				return false;
-				}
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
