@@ -33,7 +33,7 @@ public:
 	bool checkRIGHT(int x, int y);
 	void shoot(Iceman* p1);
 	void decBarrels();
-	bool isSonar();
+	bool sonarExists();
 	bool isBoulder(int x, int y, double radius);
 	void activateSonar(int x, int y);
 	void dropNugget(Iceman* p1);

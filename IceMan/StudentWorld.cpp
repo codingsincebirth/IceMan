@@ -267,7 +267,6 @@ bool StudentWorld::checkRIGHT(int x, int y) {
 }
 
 void StudentWorld::shoot(Iceman* p1) {
-	Goodie* g;
 	switch (p1->getDirection()) {
 	case up:
 		if (p1->getY() <= 60) {
@@ -374,7 +373,7 @@ bool StudentWorld::sonarExists() {
 bool StudentWorld::checkForIce(int x, int y) {
 	if (ice[x][y] == nullptr) {
 		for (int i = 0; i < 4; i++) {
-			for (int j = 0; i < 4; j++) {
+			for (int j = 0; j < 4; j++) {
 				if (ice[x + i][y + j] != nullptr) {
 					return false;
 				} else {

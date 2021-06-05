@@ -130,7 +130,6 @@ void Iceman::doSomething() {
 			case KEY_PRESS_TAB:
 				if (num_goldNugs > 0) {
 					getWorld()->dropNugget(this);
-					num_goldNugs--;
 				}
 				break;
 			}
@@ -447,19 +446,21 @@ Sonar::Sonar(int x, int y, StudentWorld* w)
 void Sonar::doSomething() {
 	if (isAlive() != true) {
 		return;
-	} else if(num_ticks > 0) {
+	}
+	else if (num_ticks > 0) {
 		if (getWorld()->withinDistanceofPlayer(getX(), getY(), 3.0)) {
 			isDead();
 			getWorld()->playSound(SOUND_GOT_GOODIE);
 			getWorld()->increaseScore(75);
 			getWorld()->getPlayer()->inc_sonar();
 		}
-		else {
-			isDead();
-		}
+		num_ticks--;
 	}
-	num_ticks--;
+	else {
+		isDead();
+	}
 }
+	
 
 int Sonar::classType() {
 	return 5;
